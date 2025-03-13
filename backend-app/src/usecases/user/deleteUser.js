@@ -1,16 +1,27 @@
+const IUserRepository = require("../../domain/interfaces/userRepository");
+const { NotFoundError, ValidationError } = require("../errors");
+
+
 class DeleteUser {
-    constructor(userRepository) {
-      this.userRepository = userRepository;
+  constructor(userRepository) {
+    if (!(userRepository instanceof IUserRepository)) {
+      throw new Error("Invalid user repository: Must implement IUserRepository");
     }
-  
-    async execute(userId) {
-      const existingUser = await this.userRepository.findById(userId);
-      if (!existingUser) {
-        throw new Error("User not found");
-      }
-  
-      return this.userRepository.delete(userId);
-    }
+    this.userRepository = userRepository;
   }
-  
-  module.exports = DeleteUser;
+
+  async execute(userId) {
+    if (!userId) {
+      throw new ValidationError("Invalid input: User ID is required");
+    }
+
+    const existingUser = await this.userRepository.findById(userId);
+    if (!existingUser) {
+      throw new NotFoundError("User not found");
+    }
+
+    return this.userRepository.delete(userId);
+  }
+}
+
+module.exports = DeleteUser;
