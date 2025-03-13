@@ -1,0 +1,121 @@
+const request = require("supertest");
+const express = require("express");
+const authController = require("../../../src/interface/controllers/authController");
+
+jest.mock("../../../src/infrastructure/repositories/userRepository");
+jest.mock("../../../src/usecases/auth/registerUser");
+jest.mock("../../../src/usecases/auth/loginUser");
+
+const app = express();
+app.use(express.json());
+app.post("/auth/register", authController.register);
+app.post("/auth/login", authController.login);
+
+describe("AuthController", () => {
+  describe("POST /auth/register", () => {
+    it("should register a new user and return 201", async () => {
+      const userData = {
+        name: "Mariem Beldi",
+        email: "mariem@example.com",
+        password: "password123",
+      };
+
+      const mockUser = { ...userData, _id: "12345", role: "user" };
+      require("../../../src/usecases/auth/registerUser").prototype.execute.mockResolvedValue(mockUser);
+
+      const response = await request(app)
+        .post("/auth/register")
+        .send(userData);
+
+      expect(response.status).toBe(201);
+      expect(response.body).toEqual(mockUser);
+    });
+
+    it("should return 400 if user data is invalid", async () => {
+      const invalidUserData = { name: "", email: "", password: "" };
+
+      require("../../../src/usecases/auth/registerUser").prototype.execute.mockRejectedValue(new Error("Invalid user data"));
+
+      const response = await request(app)
+        .post("/auth/register")
+        .send(invalidUserData);
+
+      expect(response.status).toBe(400);
+      expect(response.body).toEqual({ error: "Invalid user data" });
+    });
+
+    it("should return 400 if user already exists", async () => {
+      const userData = {
+        name: "Mariem Beldi",
+        email: "mariem@example.com",
+        password: "password123",
+      };
+
+      require("../../../src/usecases/auth/registerUser").prototype.execute.mockRejectedValue(new Error("User already exists"));
+
+      const response = await request(app)
+        .post("/auth/register")
+        .send(userData);
+
+      expect(response.status).toBe(400);
+      expect(response.body).toEqual({ error: "User already exists" });
+    });
+  });
+
+  describe("POST /auth/login", () => {
+    it("should login a user and return 200 with token and user data", async () => {
+      const loginData = {
+        email: "mariem@example.com",
+        password: "password123",
+      };
+
+      const mockToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...";
+      const mockUser = {
+        _id: "12345",
+        name: "Mariem Beldi",
+        email: "mariem@example.com",
+        role: "user",
+      };
+      require("../../../src/usecases/auth/loginUser").prototype.execute.mockResolvedValue({ token: mockToken, user: mockUser });
+
+      const response = await request(app)
+        .post("/auth/login")
+        .send(loginData);
+
+      expect(response.status).toBe(200);
+      expect(response.body).toEqual({ token: mockToken, user: mockUser });
+    });
+
+    it("should return 400 if credentials are invalid", async () => {
+      const invalidLoginData = {
+        email: "mariem@example.com",
+        password: "wrongpassword",
+      };
+
+      require("../../../src/usecases/auth/loginUser").prototype.execute.mockRejectedValue(new Error("Invalid credentials"));
+
+      const response = await request(app)
+        .post("/auth/login")
+        .send(invalidLoginData);
+
+      expect(response.status).toBe(400);
+      expect(response.body).toEqual({ error: "Invalid credentials" });
+    });
+
+    it("should return 400 if user is not found", async () => {
+      const loginData = {
+        email: "nonexistent@example.com",
+        password: "password123",
+      };
+
+      require("../../../src/usecases/auth/loginUser").prototype.execute.mockRejectedValue(new Error("User not found"));
+
+      const response = await request(app)
+        .post("/auth/login")
+        .send(loginData);
+
+      expect(response.status).toBe(400);
+      expect(response.body).toEqual({ error: "User not found" });
+    });
+  });
+});

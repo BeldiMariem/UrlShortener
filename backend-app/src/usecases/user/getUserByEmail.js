@@ -1,15 +1,27 @@
+const IUserRepository = require("../../domain/interfaces/userRepository");
+const { NotFoundError, ValidationError } = require("../errors");
+
+
 class GetUserByEmail {
-    constructor(userRepository) {
-      this.userRepository = userRepository;
+  constructor(userRepository) {
+    if (!(userRepository instanceof IUserRepository)) {
+      throw new Error("Invalid user repository: Must implement IUserRepository");
     }
-  
-    async execute(userEmail) {
-      const user = await this.userRepository.findByEmail(userEmail);
-      if (!user) {
-        throw new Error("User not found");
-      }
-      return user;
-    }
+    this.userRepository = userRepository;
   }
-  
-  module.exports = GetUserByEmail;
+
+  async execute(userEmail) {
+    if (!userEmail) {
+      throw new ValidationError("Invalid input: Email is required");
+    }
+
+    const user = await this.userRepository.findByEmail(userEmail);
+    if (!user) {
+      throw new NotFoundError("User not found");
+    }
+
+    return user;
+  }
+}
+
+module.exports = GetUserByEmail;

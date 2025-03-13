@@ -1,32 +1,33 @@
-// src/usecases/user/updateUser.js
-const User = require("../../entities/user/user.entity");
+const IUserRepository = require("../../domain/interfaces/userRepository");
+const DuplicateUserError = require("../errors/duplicateUserError");
+const NotFoundError = require("../errors/notFoundError");
+const ValidationError = require("../errors/validationError");
 
 class UpdateUser {
   constructor(userRepository) {
+    if (!(userRepository instanceof IUserRepository)) {
+      throw new Error("Invalid user repository: Must implement IUserRepository");
+    }
     this.userRepository = userRepository;
   }
 
   async execute(userId, userData) {
-    // Validate input
     if (!userId || !userData || Object.keys(userData).length === 0) {
-      throw new Error("Invalid input");
+      throw new ValidationError("Invalid input");
     }
 
-    // Check if user exists
     const user = await this.userRepository.findById(userId);
     if (!user) {
-      throw new Error("User not found");
+      throw new NotFoundError("User not found");
     }
 
-    // Check if the new email is already in use by another user
     if (userData.email) {
       const existingUser = await this.userRepository.findByEmail(userData.email);
-      if (existingUser && existingUser._id.toString() !== userId) {
-        throw new Error("Email already in use");
+      if (existingUser && existingUser.id !== userId) {
+        throw new DuplicateUserError("Email already in use");
       }
     }
 
-    // Update the user
     const updatedUser = await this.userRepository.update(userId, userData);
     return updatedUser;
   }
