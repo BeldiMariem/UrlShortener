@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
-const User = require("../../domain/user/user.entity");
+const User = require("../../domain/entities/user.entity");
+const config = require("../../infrastructure/config/env");
 
 class LoginUser {
   constructor(userRepository) {
@@ -19,7 +20,7 @@ class LoginUser {
 
     const token = jwt.sign(
       { id: user._id, role: user.role },
-      process.env.JWT_SECRET,
+      config.JWT_SECRET,
       { expiresIn: "1h" }
     );
 

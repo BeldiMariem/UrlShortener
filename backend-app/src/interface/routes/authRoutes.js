@@ -4,6 +4,8 @@ const { register, login } = require("../controllers/authController");
 const { authenticate } = require("../middleware/authMiddleware");
 const { authorize } = require("../middleware/authorizeMiddleware");
 
+
+
 /**
  * @swagger
  * /auth/register:

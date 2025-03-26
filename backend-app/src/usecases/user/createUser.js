@@ -1,4 +1,4 @@
-const User = require("../../domain/user/user.entity");
+const User = require("../../domain/entities/user.entity");
 const DuplicateUserError = require("../errors/duplicateUserError");
 const ValidationError = require("../errors/validationError");
 const IUserRepository = require("../../domain/interfaces/userRepository"); 
