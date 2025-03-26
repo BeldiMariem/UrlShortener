@@ -1,6 +1,6 @@
 const bcrypt = require("bcryptjs");
 const { ValidationError } = require("../../../src/usecases/errors");
-const User = require("../../../src/domain/user/user.entity");
+const User = require("../../../src/domain/entities/user.entity");
 
 describe("User Entity", () => {
   describe("validate()", () => {

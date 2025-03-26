@@ -1,0 +1,178 @@
+const express = require("express");
+const router = express.Router();
+const { authenticate } = require("../middleware/authMiddleware");
+
+const { authorize } = require("../middleware/authorizeMiddleware");
+
+const {
+    createShortenedUrlHandler,
+    redirectToOriginalUrlHandler,
+    listUserUrlsHandler,
+    deleteUrlHandler
+  } = require("../controllers/urlController");
+  
+  
+  const CreateShortenedUrl = require("../../usecases/url/createShortenedUrl");
+  const ListUserUrls = require("../../usecases/url/listUserUrls");
+  const RedirectToOriginalUrl = require("../../usecases/url/redirectToOriginalUrl");
+  const DeleteUrl = require("../../usecases/url/deleteUrl");
+
+  const UrlRepository = require("../../infrastructure/repositories/urlRepository");
+  const urlRepository = new UrlRepository();
+  
+  const createShortenedUrl = new CreateShortenedUrl(urlRepository);
+  const listUserUrls = new ListUserUrls(urlRepository);
+  const redirectToOriginalUrl = new RedirectToOriginalUrl(urlRepository);
+  const deleteUrl = new DeleteUrl(urlRepository)
+
+/**
+ * @swagger
+ * components:
+ *   securitySchemes:
+ *     BearerAuth:
+ *       type: http
+ *       scheme: bearer
+ *       bearerFormat: JWT
+ * /url/createUrl:
+ *   post:
+ *     summary: Create a shortened URL
+ *     description: Create a shortened URL for a given long URL. Requires authentication.
+ *     security:
+ *       - BearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               longUrl:
+ *                 type: string
+ *                 example: https://www.example.com/very-long-url
+ *     responses:
+ *       200:
+ *         description: Shortened URL created successfully.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 shortUrl:
+ *                   type: string
+ *                   description: The shortened URL.
+ *                   example: 'http://localhost:5000/abc123'
+ *       400:
+ *         description: Invalid URL.
+ *       500:
+ *         description: Internal server error.
+ */
+router.post("/createUrl", authenticate, authorize(["admin","user"]), createShortenedUrlHandler(createShortenedUrl));
+
+/**
+ * @swagger
+ * /url/redirectOriginalUrl/{shortId}:
+ *   get:
+ *     summary: Redirect to the original URL
+ *     description: Redirects to the original URL associated with the provided short ID.
+ *     parameters:
+ *       - in: path
+ *         name: shortId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         example: abc123
+ *     responses:
+ *       302:
+ *         description: Redirects to the original URL
+ *       404:
+ *         description: Short URL not found
+ */
+router.get("/redirectOriginalUrl/:shortId", redirectToOriginalUrlHandler(redirectToOriginalUrl));
+/**
+ * @swagger
+ * /url/listUrls:
+ *   get:
+ *     summary: List all URLs for the authenticated user
+ *     description: Retrieves a list of all shortened URLs created by the authenticated user.
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: List of user's shortened URLs
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   shortId:
+ *                     type: string
+ *                     example: abc123
+ *                   longUrl:
+ *                     type: string
+ *                     example: https://www.example.com/very-long-url
+ *                   userId:
+ *                     type: string
+ *                     example: 64f1b1b1b1b1b1b1b1b1b1b1
+ *       401:
+ *         description: Unauthorized (missing or invalid token)
+ */
+router.get("/listUrls", authenticate, listUserUrlsHandler(listUserUrls));
+
+/**
+ * @swagger
+ * components:
+ *   securitySchemes:
+ *     BearerAuth:
+ *       type: http
+ *       scheme: bearer
+ *       bearerFormat: JWT
+ * /url/deleteUrl/{shortId}:
+ *   delete:
+ *     summary: Delete an url by short ID
+ *     description: Delete an url by short ID
+ *     security:
+ *       - BearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: shortId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The url's short ID
+ *     responses:
+ *       200:
+ *         description: Url deleted successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Url deleted successfully
+ *       404:
+ *         description: Url not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: Url not found
+ *       500:
+ *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: Internal server error
+ */
+router.delete("/deleteUrl/:shortId", authenticate, authorize(["admin","user"]), deleteUrlHandler(deleteUrl));
+
+module.exports = router;

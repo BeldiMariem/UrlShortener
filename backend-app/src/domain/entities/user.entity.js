@@ -1,5 +1,4 @@
 const bcrypt = require("bcryptjs");
-const Joi = require("joi");
 const ValidationError = require("../../usecases/errors/validationError");
 
 class User {
