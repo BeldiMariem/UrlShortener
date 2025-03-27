@@ -1,7 +1,7 @@
 require("dotenv").config(); 
 const LoginUser = require("../../../src/usecases/auth/loginUser");
 
-jest.mock("../../../src/domain/user/user.entity", () => {
+jest.mock("../../../src/domain/entities/user.entity", () => {
   return jest.fn().mockImplementation((userData) => ({
     ...userData,
     comparePassword: jest.fn(),
@@ -24,7 +24,7 @@ describe("LoginUser Use Case", () => {
 
     userRepository.findByEmail.mockResolvedValue(userData);
 
-    const User = require("../../../src/domain/user/user.entity");
+    const User = require("../../../src/domain/entities/user.entity");
     User.mockImplementation(() => ({
       ...userData,
       comparePassword: jest.fn().mockResolvedValue(true),
@@ -42,7 +42,7 @@ describe("LoginUser Use Case", () => {
 
     userRepository.findByEmail.mockResolvedValue(userData);
 
-    const User = require("../../../src/domain/user/user.entity");
+    const User = require("../../../src/domain/entities/user.entity");
     User.mockImplementation(() => ({
       ...userData,
       comparePassword: jest.fn().mockResolvedValue(false),
