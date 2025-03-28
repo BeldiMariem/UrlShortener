@@ -51,15 +51,15 @@ const redirectToOriginalUrlHandler = (redirectToOriginalUrl) => async (req, res)
         errorHandler(res, error);
     }
   }
-  const deleteUrlHandler = (deleteUrl) => async (req, res) => {
-    try {
-      const shortId = req.params.shortId;
-      await deleteUrl.execute(shortId);
-      res.status(200).json({ message: "Url deleted successfully" });
-    } catch (error) {
-      handleError(res, error);
-    }
-  };
+ const deleteUrlHandler = (deleteUrl) => async (req, res) => {
+  try {
+    const shortId = req.params.shortId;
+    await deleteUrl.execute(shortId);
+    res.status(200).json({ message: "Url deleted successfully" });
+  } catch (error) {
+    errorHandler(res, error); 
+  }
+};
 
 
 module.exports = {
