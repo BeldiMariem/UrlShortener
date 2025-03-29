@@ -49,6 +49,9 @@ const {
  *               longUrl:
  *                 type: string
  *                 example: https://www.example.com/very-long-url
+ *               title:
+ *                 type: string
+ *                 example: example
  *     responses:
  *       200:
  *         description: Shortened URL created successfully.

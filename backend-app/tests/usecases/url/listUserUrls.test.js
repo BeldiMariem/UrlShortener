@@ -15,7 +15,8 @@ describe('ListUserUrls Use Case', () => {
     const userId = 'user123';
     await mockUrlRepository.create({ 
       shortId: 'abc123', 
-      longUrl: 'https://example.com', 
+      longUrl: 'https://example.com',
+      title:'example',
       userId 
     });
     

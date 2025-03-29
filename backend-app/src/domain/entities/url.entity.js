@@ -1,9 +1,10 @@
 const { ValidationError } = require("../../usecases/errors");
 
 class Url {
-  constructor({ longUrl, shortId, userId }) {
+  constructor({ longUrl, shortId,title, userId }) {
     this.longUrl = longUrl;
     this.shortId = shortId;
+    this.title = title;
     this.userId = userId;
   }
 

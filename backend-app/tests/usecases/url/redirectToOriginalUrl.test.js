@@ -13,7 +13,7 @@ describe('RedirectToOriginalUrl Use Case', () => {
   });
 
   test('should return long URL for valid shortId', async () => {
-    const mockUrl = { shortId: 'abc123', longUrl: 'https://example.com', userId: 'user123' };
+    const mockUrl = { shortId: 'abc123', longUrl: 'https://example.com',title: 'example', userId: 'user123' };
     await mockUrlRepository.create(mockUrl);
     
     const result = await redirectToOriginalUrl.execute('abc123');
