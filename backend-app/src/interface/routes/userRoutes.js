@@ -27,14 +27,9 @@ const deleteUser = new DeleteUser(userRepository);
 
 /**
  * @swagger
- * components:
- *   securitySchemes:
- *     BearerAuth:
- *       type: http
- *       scheme: bearer
- *       bearerFormat: JWT
  * /user/createUser:
  *   post:
+ *     tags: [User]
  *     summary: Create a new user
  *     description: Register a new user with name, email, and password
  *     security:
@@ -112,15 +107,10 @@ const deleteUser = new DeleteUser(userRepository);
 router.post("/createUser", authenticate, createUserHandler(createUser));
 
 /**
- * @swagger 
- * components:
- *   securitySchemes:
- *     BearerAuth:
- *       type: http
- *       scheme: bearer
- *       bearerFormat: JWT
+ * @swagger
  * /user/getAllUsers:
  *   get:
+ *     tags: [User]
  *     summary: Get all users
  *     description: Retrieve a list of all users
  *     security:
@@ -162,14 +152,9 @@ router.get("/getAllUsers", authenticate, authorize(["admin"]), getAllUsersHandle
 
 /**
  * @swagger
- * components:
- *   securitySchemes:
- *     BearerAuth:
- *       type: http
- *       scheme: bearer
- *       bearerFormat: JWT
  * /user/getUserByEmail/{email}:
  *   get:
+ *     tags: [User]
  *     summary: Get a user by email
  *     description: Retrieve a user by their email
  *     security:
@@ -226,14 +211,9 @@ router.get("/getUserByEmail/:email", authenticate, authorize(["admin"]), getUser
 
 /**
  * @swagger
- * components:
- *   securitySchemes:
- *     BearerAuth:
- *       type: http
- *       scheme: bearer
- *       bearerFormat: JWT
  * /user/updateUser/{id}:
  *   put:
+ *     tags: [User]
  *     summary: Update a user
  *     description: Update a user's information by ID
  *     security:
@@ -319,14 +299,9 @@ router.put("/updateUser/:id", authenticate, authorize(["admin"]), updateUserHand
 
 /**
  * @swagger
- * components:
- *   securitySchemes:
- *     BearerAuth:
- *       type: http
- *       scheme: bearer
- *       bearerFormat: JWT
  * /user/deleteUser/{id}:
  *   delete:
+ *     tags: [User]
  *     summary: Delete a user
  *     description: Delete a user by ID
  *     security:
