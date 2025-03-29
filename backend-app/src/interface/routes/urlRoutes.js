@@ -27,14 +27,9 @@ const {
 
 /**
  * @swagger
- * components:
- *   securitySchemes:
- *     BearerAuth:
- *       type: http
- *       scheme: bearer
- *       bearerFormat: JWT
  * /url/createUrl:
  *   post:
+ *     tags: [URL]
  *     summary: Create a shortened URL
  *     description: Create a shortened URL for a given long URL. Requires authentication.
  *     security:
@@ -75,6 +70,7 @@ router.post("/createUrl", authenticate, authorize(["admin","user"]), createShort
  * @swagger
  * /url/redirectOriginalUrl/{shortId}:
  *   get:
+ *     tags: [URL]
  *     summary: Redirect to the original URL
  *     description: Redirects to the original URL associated with the provided short ID.
  *     parameters:
@@ -91,10 +87,12 @@ router.post("/createUrl", authenticate, authorize(["admin","user"]), createShort
  *         description: Short URL not found
  */
 router.get("/redirectOriginalUrl/:shortId", redirectToOriginalUrlHandler(redirectToOriginalUrl));
+
 /**
  * @swagger
  * /url/listUrls:
  *   get:
+ *     tags: [URL]
  *     summary: List all URLs for the authenticated user
  *     description: Retrieves a list of all shortened URLs created by the authenticated user.
  *     security:
@@ -125,14 +123,9 @@ router.get("/listUrls", authenticate, listUserUrlsHandler(listUserUrls));
 
 /**
  * @swagger
- * components:
- *   securitySchemes:
- *     BearerAuth:
- *       type: http
- *       scheme: bearer
- *       bearerFormat: JWT
  * /url/deleteUrl/{shortId}:
  *   delete:
+ *     tags: [URL]
  *     summary: Delete an url by short ID
  *     description: Delete an url by short ID
  *     security:
@@ -177,5 +170,4 @@ router.get("/listUrls", authenticate, listUserUrlsHandler(listUserUrls));
  *                   example: Internal server error
  */
 router.delete("/deleteUrl/:shortId", authenticate, authorize(["admin","user"]), deleteUrlHandler(deleteUrl));
-
 module.exports = router;
