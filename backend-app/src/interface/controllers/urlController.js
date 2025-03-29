@@ -8,8 +8,9 @@ const errorHandler = require("../../usecases/utils/errorHandler");
 
 const createShortenedUrlHandler = (createShortenedUrl) => async (req, res) => {
   try {
-    const { longUrl } = req.body;
+    const longUrl  = req.body.longUrl;
     const userId = req.user.id;
+    const title = req.body.title ;
 
     if (!longUrl) {
       throw new ValidationError("longUrl is required");
@@ -18,7 +19,7 @@ const createShortenedUrlHandler = (createShortenedUrl) => async (req, res) => {
       throw new ValidationError("User ID is missing");
     }
 
-    const { shortUrl } = await createShortenedUrl.execute(longUrl, userId);
+    const { shortUrl } = await createShortenedUrl.execute(longUrl,title, userId);
 
     res.status(201).json({ shortUrl });
   } catch (error) {

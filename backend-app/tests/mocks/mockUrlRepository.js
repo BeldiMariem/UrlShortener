@@ -17,6 +17,9 @@ class MockUrlRepository extends IUrlRepository {
     return this.urls.find(url => url.shortId === shortId) || null;
   }
 
+  async findByTitle(title) {
+    return this.urls.find(url => url.title === title) || null;
+  }
   async findByUserId(userId) {
     return this.urls.filter(url => url.userId === userId);
   }

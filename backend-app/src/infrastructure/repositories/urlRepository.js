@@ -9,6 +9,9 @@ class UrlRepository extends IUrlRepository{
   async findByShortId(shortId) {
     return UrlModel.findOne({ shortId });
   }
+  async findByTitle(title) {
+    return UrlModel.findOne({ title });
+  }
 
   async findByUserId(userId) {
     return UrlModel.find({ userId });

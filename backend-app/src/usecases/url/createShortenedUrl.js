@@ -13,13 +13,13 @@ class CreateShortenedUrl {
     this.urlRepository = urlRepository;
   }
   
-  async execute(longUrl, userId) {
+  async execute(longUrl,title,userId) {
     if (!longUrl || !this.isValidUrl(longUrl)) {
       throw new ValidationError("Invalid URL");
     }
 
     const shortId = shortid.generate();
-    const url = new Url( {longUrl, shortId, userId} );
+    const url = new Url( {longUrl, shortId,title, userId} );
     this.urlRepository.create(url);
     return { shortUrl: `${baseUrl}/url/redirectOriginalUrl/${shortId}` };
 

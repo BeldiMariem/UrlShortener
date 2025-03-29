@@ -1,4 +1,3 @@
-// tests/usecases/url/CreateShortenedUrl.test.js
 const CreateShortenedUrl = require('../../../src/usecases/url/createShortenedUrl');
 const MockUrlRepository = require('../../mocks/mockUrlRepository');
 const { ValidationError } = require('../../../src/usecases/errors');
@@ -8,7 +7,6 @@ describe('CreateShortenedUrl Use Case', () => {
   let createShortenedUrl;
 
   beforeEach(() => {
-    // Create a proper instance that implements IUrlRepository
     mockUrlRepository = new MockUrlRepository();
     createShortenedUrl = new CreateShortenedUrl(mockUrlRepository);
     jest.spyOn(mockUrlRepository, 'create');
@@ -17,8 +15,9 @@ describe('CreateShortenedUrl Use Case', () => {
   test('should create and return a shortened URL', async () => {
     const longUrl = 'https://example.com';
     const userId = 'user123';
+    const title = 'exapmle';
     
-    const result = await createShortenedUrl.execute(longUrl, userId);
+    const result = await createShortenedUrl.execute(longUrl, userId, title);
     
     expect(mockUrlRepository.create).toHaveBeenCalled();
     expect(result.shortUrl).toMatch(/http:\/\/.+\/url\/redirectOriginalUrl\/.+/);
@@ -30,7 +29,6 @@ describe('CreateShortenedUrl Use Case', () => {
   });
 
   test('should throw when repository is not IUrlRepository', () => {
-    // Test with a plain object that doesn't implement the interface
     expect(() => new CreateShortenedUrl({})).toThrow('Invalid url repository');
   });
 });
