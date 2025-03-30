@@ -64,7 +64,7 @@ const {
  *       500:
  *         description: Internal server error.
  */
-router.post("/createUrl", authenticate, authorize(["admin","user"]), createShortenedUrlHandler(createShortenedUrl));
+router.post("/createUrl", authenticate, createShortenedUrlHandler(createShortenedUrl));
 
 /**
  * @swagger
@@ -86,7 +86,7 @@ router.post("/createUrl", authenticate, authorize(["admin","user"]), createShort
  *       404:
  *         description: Short URL not found
  */
-router.get("/redirectOriginalUrl/:shortId", redirectToOriginalUrlHandler(redirectToOriginalUrl));
+router.get("/redirectOriginalUrl/:shortId", authenticate,redirectToOriginalUrlHandler(redirectToOriginalUrl));
 
 /**
  * @swagger
@@ -169,5 +169,5 @@ router.get("/listUrls", authenticate, listUserUrlsHandler(listUserUrls));
  *                   type: string
  *                   example: Internal server error
  */
-router.delete("/deleteUrl/:shortId", authenticate, authorize(["admin","user"]), deleteUrlHandler(deleteUrl));
+router.delete("/deleteUrl/:shortId", authenticate,  deleteUrlHandler(deleteUrl));
 module.exports = router;
