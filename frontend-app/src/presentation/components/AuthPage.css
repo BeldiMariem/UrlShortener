@@ -1,0 +1,51 @@
+.auth-page-wrapper {
+  background: url("https://images.unsplash.com/photo-1515169067865-5387f07a1f5c?auto=format&fit=crop&w=1950&q=80") no-repeat center center/cover;
+  min-height: 100vh;
+  position: relative;
+}
+
+.auth-overlay {
+  background-color: rgba(0, 0, 0, 0.7);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.auth-card {
+  background-color: rgba(255, 255, 255, 0.95);
+  width: 100%;
+  max-width: 400px;
+  padding: 20px;
+  border-radius: 12px;
+}
+
+#login-btn,
+#register-btn {
+  font-weight: 500;
+  border: 1px solid #ddd;
+}
+
+#login-btn.active,
+#register-btn.active {
+  background-color: #ffc107;
+  color: #000;
+}
+.auth-toggle-group .btn {
+  transition: background-color 0.2s ease, color 0.2s ease;
+  padding: 10px 0;
+  font-size: 1rem;
+  border-radius: 8px;
+}
+
+.auth-toggle-group .btn-outline-secondary {
+  background-color: white;
+  color: #555;
+  border: 1px solid #ccc;
+}
+
+.auth-toggle-group .btn-warning {
+  background-color: #ffc107;
+  color: #000;
+  border: 1px solid #ffc107;
+}
