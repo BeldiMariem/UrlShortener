@@ -1,0 +1,34 @@
+// src/context/auth/AuthContext.tsx
+import React, { createContext, useState, ReactNode } from "react";
+import { ILoginPayload, IRegisterPayload, IUser } from "../domain/models/User";
+import { login as loginUser, register as registerUser } from "../application/usecases/user/authUseCases";
+
+interface AuthContextProps {
+  user: IUser | null;
+  login: (payload: ILoginPayload) => Promise<void>;
+  register: (payload: IRegisterPayload) => Promise<void>;
+}
+
+const AuthContext = createContext<AuthContextProps | undefined>(undefined);
+
+export const AuthProvider = ({ children }: { children: ReactNode }) => {
+  const [user, setUser] = useState<IUser | null>(null);
+
+  const login = async (payload: ILoginPayload) => {
+    const u = await loginUser(payload);
+    setUser(u);
+  };
+
+  const register = async (payload: IRegisterPayload) => {
+    const u = await registerUser(payload);
+    setUser(u);
+  };
+
+  return <AuthContext.Provider value={{ user, login, register }}>{children}</AuthContext.Provider>;
+};
+
+export const useAuth = () => {
+  const ctx = React.useContext(AuthContext);
+  if (!ctx) throw new Error("useAuth must be used inside AuthProvider");
+  return ctx;
+};
