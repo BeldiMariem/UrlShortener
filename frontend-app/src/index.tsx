@@ -1,13 +1,15 @@
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import { BrowserRouter } from 'react-router-dom';
+import App from './App';
+import { AuthProvider } from './context/authContext';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
-import "bootstrap/dist/css/bootstrap.min.css";
+const root = ReactDOM.createRoot(
+  document.getElementById('root') as HTMLElement
+);
 
-import React from "react";
-import ReactDOM from "react-dom/client";
-import { BrowserRouter } from "react-router-dom";
-import App from "./App";
-import { AuthProvider } from "./context/authContext";
-
-ReactDOM.createRoot(document.getElementById("root")!).render(
+root.render(
   <React.StrictMode>
     <BrowserRouter>
       <AuthProvider>
@@ -16,4 +18,3 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
     </BrowserRouter>
   </React.StrictMode>
 );
-

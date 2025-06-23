@@ -19,6 +19,8 @@ class CreateUser {
     const user = new User(userData);
     user.validate();
 
+    await user.hashPassword();
+
     const existingUser = await this.userRepository.findByEmail(userData.email);
     if (existingUser) {
       throw new DuplicateUserError("User already exists");

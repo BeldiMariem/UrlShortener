@@ -7,6 +7,7 @@ interface AuthContextProps {
   user: IUser | null;
   login: (payload: ILoginPayload) => Promise<void>;
   register: (payload: IRegisterPayload) => Promise<void>;
+  isAuthenticated: boolean;  // <-- Add this
 }
 
 const AuthContext = createContext<AuthContextProps | undefined>(undefined);
@@ -24,7 +25,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setUser(u);
   };
 
-  return <AuthContext.Provider value={{ user, login, register }}>{children}</AuthContext.Provider>;
+  // Provide isAuthenticated boolean based on user state
+  const isAuthenticated = user !== null;
+
+  return (
+    <AuthContext.Provider value={{ user, login, register, isAuthenticated }}>
+      {children}
+    </AuthContext.Provider>
+  );
 };
 
 export const useAuth = () => {
