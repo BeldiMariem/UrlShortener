@@ -1,139 +1,317 @@
-// src/components/Sidebar/index.tsx
 import React, { useState } from "react";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
 import * as FiIcons from "react-icons/fi";
+import { logout } from "../../infrastructure/services/authService";
+import { useNavigate } from "react-router-dom";
+const handleLogout = async () => {
+  try {
+    await logout();
+  } catch (err) {
+    console.error("Logout failed", err);
+  }
+};
+// Types
+type IconComponent = React.ComponentType<{ className?: string; size?: number }>;
+type ColorMode = "light" | "dark";
 
+interface NavItem {
+  to: string;
+  label: string;
+  icon: IconComponent;
+}
 
-const FiHome = FiIcons.FiHome as React.ComponentType<{ className?: string }>;
-const FiUsers = FiIcons.FiUsers as React.ComponentType<{ className?: string }>;
-const FiSettings = FiIcons.FiSettings as React.ComponentType<{ className?: string }>;
-const FiLogOut = FiIcons.FiLogOut as React.ComponentType<{ className?: string }>;
-const FiChevronLeft = FiIcons.FiChevronLeft as React.ComponentType<{ className?: string }>;
-const FiChevronRight = FiIcons.FiChevronRight as React.ComponentType<{ className?: string }>;
-const FiLink= FiIcons.FiLink as React.ComponentType<{ className?: string }>;
-const FiSearch = FiIcons.FiSearch as React.ComponentType<{ className?: string }>;
-const Sidebar: React.FC = () => {
-  const [isCollapsed, setIsCollapsed] = useState(false);
-  const toggleSidebar = () => setIsCollapsed(!isCollapsed);
+interface Theme {
+  primary: string;
+  primaryLight: string;
+  primaryDark: string;
+  background: string;
+  text: string;
+  textSecondary: string;
+  border: string;
+  activeText: string;
+  menuHover: string;
+}
 
+// Extracted icons
+const {
+  FiHome,
+  FiUsers,
+  FiLink,
+  FiSearch,
+  FiLogOut,
+  FiChevronLeft,
+  FiChevronRight,
+} = FiIcons as Record<string, IconComponent>;
+
+// Navigation items
+const NAV_ITEMS: NavItem[] = [
+  { to: "/home", label: "Home", icon: FiHome },
+  { to: "/users", label: "Users", icon: FiUsers },
+  { to: "/myUrls", label: "My URLs", icon: FiLink },
+  { to: "/search", label: "Search", icon: FiSearch },
+];
+
+// Theme configurations
+const themes: Record<ColorMode, Theme> = {
+  light: {
+    primary: "#FFA000",
+    primaryLight: "#FFECB3",
+    primaryDark: "#FF8F00",
+    background: "#FFFDF7",
+    text: "#2D3748",
+    textSecondary: "#4A5568",
+    border: "#E2E8F0",
+    activeText: "#1A202C",
+    menuHover: "#FFF3E0",
+  },
+  dark: {
+    primary: "#FFC107",
+    primaryLight: "#FFECB3",
+    primaryDark: "#FFA000",
+    background: "#1F2937",
+    text: "#F3F4F6",
+    textSecondary: "#9CA3AF",
+    border: "#374151",
+    activeText: "black",
+    menuHover: "#4B5563",
+  },
+};
+
+interface SidebarProps {
+  mode?: ColorMode;
+}
+
+const Sidebar: React.FC<SidebarProps> = ({ mode = "dark" }) => {
+  const [collapsed, setCollapsed] = useState(false);
+  const { pathname } = useLocation();
+  const theme = themes[mode];
+
+  const toggleCollapse = () => setCollapsed(c => !c);
+  const LogoutButton = styled.button<{ $collapsed: boolean; $theme: Theme }>`
+  display: flex;
+  align-items: center;
+  gap: ${({ $collapsed }) => ($collapsed ? "0" : "0.75rem")};
+  padding: ${({ $collapsed }) => ($collapsed ? "0.75rem" : "0.75rem 1rem")};
+  width: 100%;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: ${({ $theme }) => $theme.text};
+  font-size: 0.95rem;
+  border-radius: 8px;
+  font-weight: 500;
+  justify-content: ${({ $collapsed }) => ($collapsed ? "center" : "flex-start")};
+  transition: background 0.2s ease, color 0.2s ease;
+
+  &:hover {
+    background: ${({ $theme }) => $theme.menuHover};
+    color: ${({ $theme }) => $theme.primaryDark};
+
+    ${IconWrapper} {
+      background: ${({ $theme }) => $theme.primaryLight};
+      color: ${({ $theme }) => $theme.primaryDark};
+    }
+  }
+`;
   return (
-    <SidebarContainer className={isCollapsed ? "collapsed" : ""}>
-      <SidebarHeader>
-        {!isCollapsed && <Brand>Shorty</Brand>}
-        <ToggleButton onClick={toggleSidebar}>
-          {isCollapsed ? <FiChevronRight /> : <FiChevronLeft />}
+    <Container collapsed={collapsed} $theme={theme}>
+      <Header $theme={theme}>
+        {!collapsed ? (
+          <BrandContainer>
+            <Brand $theme={theme}>Shorty</Brand>
+            <LinkIcon $theme={theme}>
+              <FiLink size={16} />
+            </LinkIcon>
+          </BrandContainer>
+        ) : null}
+        <ToggleButton onClick={toggleCollapse} aria-label="Toggle sidebar" $theme={theme}>
+          {collapsed ? <FiChevronRight size={20} /> : <FiChevronLeft size={20} />}
         </ToggleButton>
-      </SidebarHeader>
+      </Header>
 
       <NavMenu>
-        <NavItem>
-          <NavLink to="/home"><FiHome />{!isCollapsed && <span>Home</span>}</NavLink>
-        </NavItem>
-        <NavItem>
-          <NavLink to="/users"><FiUsers />{!isCollapsed && <span>Users</span>}</NavLink>
-        </NavItem>
-        <NavItem>
-          <NavLink to="/myUrls"><FiLink  />{!isCollapsed && <span>My Urls</span>}</NavLink>
-        </NavItem>
-          <NavItem>
-          <NavLink to="/search"><FiSearch  />{!isCollapsed && <span>Search Link</span>}</NavLink>
-        </NavItem>
+        {NAV_ITEMS.map(({ to, label, icon: Icon }) => (
+          <NavItem key={to}>
+            <NavLinkStyled
+              to={to}
+              $active={pathname === to}
+              $collapsed={collapsed}
+              $theme={theme}
+            >
+              <IconWrapper $active={pathname === to} $theme={theme}>
+                <Icon size={18} />
+              </IconWrapper>
+              {!collapsed && (
+                <>
+                  <Label>{label}</Label>
+                  {pathname === to && <ActiveIndicator $theme={theme} />}
+                </>
+              )}
+            </NavLinkStyled>
+          </NavItem>
+        ))}
       </NavMenu>
 
-      <SidebarFooter>
-        <NavLink to="/logout"><FiLogOut />{!isCollapsed && <span>Logout</span>}</NavLink>
-      </SidebarFooter>
-    </SidebarContainer>
+      <Footer $theme={theme}>
+      <Link to="/">
+
+        <LogoutButton
+          onClick={handleLogout}
+          $collapsed={collapsed}
+          $theme={theme}
+        >
+          <IconWrapper $active={false} $theme={theme}>
+            <FiLogOut size={18} />
+          </IconWrapper>
+          {!collapsed && <Label>Logout</Label>}
+        </LogoutButton>
+        </Link>
+      </Footer>
+    </Container>
   );
 };
 
-const yellow = "#f8c43d";
-const darkBlue = "#1c2541";
+export default Sidebar;
 
-const SidebarContainer = styled.div`
+// Styled Components
+const Container = styled.aside<{ collapsed: boolean; $theme: Theme }>`
   display: flex;
   flex-direction: column;
   height: 100vh;
-  background-color: ${darkBlue};
-  color: white;
-  transition: width 0.3s ease;
-  width: 250px;
+  width: ${({ collapsed }) => (collapsed ? "80px" : "260px")};
+  background: ${({ $theme }) => $theme.background};
+  color: ${({ $theme }) => $theme.text};
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border-right: 1px solid ${({ $theme }) => $theme.border};
+  position: sticky;
+  top: 0;
+  box-shadow: ${({ $theme }) =>
+    $theme.background === themes.dark.background
+      ? "0 4px 6px -1px rgba(0, 0, 0, 0.3)"
+      : "0 4px 6px -1px rgba(0, 0, 0, 0.05)"};
+`;
 
-  &.collapsed {
-    width: 80px;
+const Header = styled.header<{ $theme: Theme }>`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem;
+  border-bottom: 1px solid ${({ $theme }) => $theme.border};
+`;
+
+const BrandContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+`;
+
+const Brand = styled.h3<{ $theme: Theme }>`
+  margin: 0;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: ${({ $theme }) => $theme.primaryDark};
+  letter-spacing: -0.5px;
+`;
+
+const LinkIcon = styled.span<{ $theme: Theme }>`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: ${({ $theme }) => $theme.primary};
+  transition: transform 0.2s ease;
+  
+  &:hover {
+    transform: scale(1.1);
+    color: ${({ $theme }) => $theme.primaryDark};
   }
 `;
 
-const SidebarHeader = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px;
-  background-color: ${yellow};
-  color: #1c2541;
-`;
-
-const Brand = styled.h3`
-  margin: 0;
-  font-size: 1.4rem;
-  font-weight: bold;
-`;
-
-const ToggleButton = styled.button`
+const ToggleButton = styled.button<{ $theme: Theme }>`
   background: none;
   border: none;
-  color: #1c2541;
-  font-size: 1.4rem;
+  color: ${({ $theme }) => $theme.textSecondary};
   cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+  
+  &:hover {
+    background: ${({ $theme }) => $theme.primaryLight};
+    color: ${({ $theme }) => $theme.primaryDark};
+    transform: scale(1.1);
+  }
 `;
 
 const NavMenu = styled.ul`
+  flex: 1;
+  margin: 1rem 0;
+  padding: 0 0.75rem;
   list-style: none;
-  padding: 0;
-  margin: 20px 0;
-  flex-grow: 1;
+  overflow-y: auto;
 `;
 
 const NavItem = styled.li`
-  margin: 5px 0;
+  margin: 0.25rem 0;
 `;
 
-const NavLink = styled(Link)`
+const IconWrapper = styled.span<{ $active: boolean; $theme: Theme }>`
   display: flex;
   align-items: center;
-  padding: 12px 20px;
-  color: white;
-  text-decoration: none;
-  font-size: 1rem;
-  transition: background-color 0.2s ease;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: ${({ $active, $theme }) => $active ? $theme.primary : 'transparent'};
+  color: ${({ $active, $theme }) => $active ? $theme.activeText : $theme.textSecondary};
+  transition: all 0.2s ease;
+`;
 
-  svg {
-    font-size: 1.2rem;
-    margin-right: 10px;
-  }
+const NavLinkStyled = styled(NavLink) <{
+  $active: boolean;
+  $collapsed: boolean;
+  $theme: Theme;
+}>`
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: ${({ $collapsed }) => $collapsed ? '0' : '0.75rem'};
+  padding: ${({ $collapsed }) => $collapsed ? '0.75rem' : '0.75rem 1rem'};
+  color: ${({ $active, $theme }) => $active ? $theme.activeText : $theme.text};
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: ${({ $active }) => $active ? '600' : '500'};
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  justify-content: ${({ $collapsed }) => $collapsed ? 'center' : 'flex-start'};
+  background: ${({ $active, $theme }) => $active ? $theme.primaryLight : 'transparent'};
 
   &:hover {
-    background-color: ${yellow};
-    color: #1c2541;
-
-    svg {
-      color: #1c2541;
-    }
-  }
-
-  .collapsed & {
-    justify-content: center;
-
-    svg {
-      margin-right: 0;
+    background: ${({ $theme }) => $theme.menuHover};
+    color: ${({ $theme }) => $theme.primaryDark};
+    
+    ${IconWrapper} {
+      background: ${({ $active, $theme }) => $active ? $theme.primary : $theme.primaryLight};
+      color: ${({ $active, $theme }) => $active ? $theme.activeText : $theme.primaryDark};
     }
   }
 `;
 
-const SidebarFooter = styled.div`
-  padding: 20px;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+const Label = styled.span`
+  white-space: nowrap;
+  transition: opacity 0.2s ease;
 `;
 
-export default Sidebar;
+const ActiveIndicator = styled.span<{ $theme: Theme }>`
+  position: absolute;
+  right: 1rem;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: ${({ $theme }) => $theme.primary};
+`;
+
+const Footer = styled.footer<{ $theme: Theme }>`
+  padding: 1rem;
+  border-top: 1px solid ${({ $theme }) => $theme.border};
+`;

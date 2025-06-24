@@ -5,6 +5,7 @@ const UserRepository = require("../../infrastructure/repositories/userRepository
 const userRepository = new UserRepository();
 const registerUser = new RegisterUser(userRepository);
 const loginUser = new LoginUser(userRepository); 
+const { blacklist } = require("../../usecases/utils/tokenBlacklist");
 
 
 exports.register = async (req, res) => {
@@ -24,3 +25,11 @@ exports.register = async (req, res) => {
       res.status(400).json({ error: error.message });
     }
   };
+  
+exports.logout = (req, res) => {
+  const token = req.headers.authorization?.split(" ")[1];
+  if (token) {
+    blacklist.add(token); 
+  }
+  res.status(200).json({ message: "Logged out successfully" });
+};

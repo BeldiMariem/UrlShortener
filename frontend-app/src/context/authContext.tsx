@@ -2,6 +2,7 @@
 import React, { createContext, useState, ReactNode } from "react";
 import { ILoginPayload, IRegisterPayload, IUser } from "../domain/models/User";
 import { login as loginUser, register as registerUser } from "../application/usecases/user/authUseCases";
+import { logout as logoutAPI } from "../application/usecases/user/authUseCases";
 
 interface AuthContextProps {
   user: IUser | null;
@@ -39,4 +40,14 @@ export const useAuth = () => {
   const ctx = React.useContext(AuthContext);
   if (!ctx) throw new Error("useAuth must be used inside AuthProvider");
   return ctx;
+};
+export const logout = async () => {
+  try {
+    await logoutAPI();
+  } catch (err) {
+    console.error("Logout error", err);
+  } finally {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+  }
 };

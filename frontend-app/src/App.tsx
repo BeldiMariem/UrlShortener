@@ -8,6 +8,7 @@ import AuthPage from './presentation/components/LoginForm'
 import RegisterPage from './presentation/components/RegisterForm'
 import UrlManagement from './presentation/components/Url/UrlManagement'
 import Home from './presentation/components/Home'
+import SearchPage from './presentation/components/SearchPage'
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
       <Route path="/users" element={<UserList />} />
       <Route path="/myUrls" element={<UrlManagement />} />
       <Route path="/home" element={<Home />} />
+      <Route path="/search" element={<SearchPage  />} />
 
 
       </Route>
