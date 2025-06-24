@@ -7,9 +7,14 @@ import {
   Container,
   Card,
   Form,
+  Pagination,
 } from "react-bootstrap";
 import { IUser } from "../../../domain/models/User";
-import { getAllUsers, removeUser, editUser } from "../../../application/usecases/user/userUsecases";
+import {
+  getAllUsers,
+  removeUser,
+  editUser,
+} from "../../../application/usecases/user/userUsecases";
 import { createUser } from "../../../infrastructure/services/userService";
 import UserForm from "./UserForm";
 
@@ -20,10 +25,8 @@ const UserList: React.FC = () => {
 
   const [showEditModal, setShowEditModal] = useState(false);
   const [selectedUser, setSelectedUser] = useState<IUser | null>(null);
-
   const [showAddModal, setShowAddModal] = useState(false);
 
-  // Search & Pagination
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
@@ -32,22 +35,21 @@ const UserList: React.FC = () => {
     loadUsers();
   }, []);
 
-  async function loadUsers() {
+  const loadUsers = async () => {
     try {
       const data = await getAllUsers();
-      setUsers(data.reverse());
+      setUsers(data.reverse()); // latest first
     } catch {
       setError("Failed to fetch users");
     } finally {
       setLoading(false);
     }
-  }
+  };
 
-  async function handleDelete(user: IUser) {
+  const handleDelete = async (user: IUser) => {
     if (window.confirm("Are you sure you want to delete this user?")) {
       try {
         await removeUser(user._id);
-        // If last user on page deleted, go to previous page if exists
         const lastPage = Math.ceil((users.length - 1) / itemsPerPage);
         if (currentPage > lastPage) setCurrentPage(lastPage);
         loadUsers();
@@ -55,21 +57,19 @@ const UserList: React.FC = () => {
         alert("Failed to delete user");
       }
     }
-  }
+  };
 
-  function handleEditClick(user: IUser) {
+  const handleEditClick = (user: IUser) => {
     setSelectedUser(user);
     setShowEditModal(true);
-  }
+  };
 
-  // Filter users by search term (case-insensitive)
   const filteredUsers = users.filter(
     (user) =>
       user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       user.email.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  // Pagination calculations
   const totalPages = Math.ceil(filteredUsers.length / itemsPerPage) || 1;
   const paginatedUsers = filteredUsers.slice(
     (currentPage - 1) * itemsPerPage,
@@ -80,24 +80,21 @@ const UserList: React.FC = () => {
     <Container className="mt-4">
       <Card>
         <Card.Body>
-          <Card.Title>User Management</Card.Title>
-
-          {/* Add User button aligned right */}
-          <div className="d-flex justify-content-end mb-3">
+          <Card.Title className="d-flex justify-content-between align-items-center">
+            <span>User Management</span>
             <Button variant="success" onClick={() => setShowAddModal(true)}>
               Add User
             </Button>
-          </div>
+          </Card.Title>
 
-          {/* Search Input */}
           <Form.Control
             type="text"
             placeholder="Search by name or email"
-            className="mb-3"
+            className="mb-3 mt-3"
             value={searchTerm}
             onChange={(e) => {
               setSearchTerm(e.target.value);
-              setCurrentPage(1); // reset to first page on search
+              setCurrentPage(1);
             }}
           />
 
@@ -154,30 +151,32 @@ const UserList: React.FC = () => {
                 </tbody>
               </Table>
 
-              {/* Pagination Controls */}
-              <div className="d-flex justify-content-center align-items-center mt-3 gap-2">
-                <Button
-                  variant="outline-primary"
-                  size="sm"
-                  disabled={currentPage === 1}
-                  onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
-                >
-                  Previous
-                </Button>
-
-                <span>
-                  Page {currentPage} of {totalPages}
-                </span>
-
-                <Button
-                  variant="outline-primary"
-                  size="sm"
-                  disabled={currentPage === totalPages}
-                  onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
-                >
-                  Next
-                </Button>
-              </div>
+              {totalPages > 1 && (
+                <Pagination className="justify-content-center mt-3">
+                  <Pagination.Prev
+                    disabled={currentPage === 1}
+                    onClick={() => setCurrentPage((prev) => prev - 1)}
+                  />
+                  {[...Array(totalPages)].map((_, i) => (
+                    <Pagination.Item
+                      key={i}
+                      active={i + 1 === currentPage}
+                      onClick={() => setCurrentPage(i + 1)}
+                      style={{
+                        backgroundColor: "#1c2541",
+                        borderColor: "#1c2541",
+                        color: "white",
+                      }}
+                    >
+                      {i + 1}
+                    </Pagination.Item>
+                  ))}
+                  <Pagination.Next
+                    disabled={currentPage === totalPages}
+                    onClick={() => setCurrentPage((prev) => prev + 1)}
+                  />
+                </Pagination>
+              )}
             </>
           )}
         </Card.Body>
@@ -193,7 +192,6 @@ const UserList: React.FC = () => {
                 name: selectedUser.name,
                 email: selectedUser.email,
                 role: selectedUser.role,
-                // You can pass password here if needed or leave empty to force update
               }
             : null
         }

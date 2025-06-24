@@ -1,15 +1,20 @@
-class Url {
-  constructor({ longUrl, shortId, title, userId }: { longUrl: string; shortId: string; title?: string; userId: string }) {
-    this.longUrl = longUrl;
-    this.shortId = shortId;
-    this.title = title;
-    this.userId = userId;
-  }
-
-  longUrl: string;
+export interface IUrl {
   shortId: string;
+  longUrl: string;
+  title?: string;
+  userId: string;
+  createdAt?: Date;
+}
+
+export interface ICreateUrlPayload {
+  longUrl: string;
   title?: string;
   userId: string;
 }
 
-export {}; 
+export interface IUrlRepository {
+  create(url: IUrl): Promise<IUrl>;
+  findByShortId(shortId: string): Promise<IUrl | null>;
+  findByUserId(userId: string): Promise<IUrl[]>;
+  deleteByShortId(shortId: string): Promise<void>;
+}

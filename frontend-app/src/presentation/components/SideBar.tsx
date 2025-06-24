@@ -4,13 +4,15 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import * as FiIcons from "react-icons/fi";
 
+
 const FiHome = FiIcons.FiHome as React.ComponentType<{ className?: string }>;
 const FiUsers = FiIcons.FiUsers as React.ComponentType<{ className?: string }>;
 const FiSettings = FiIcons.FiSettings as React.ComponentType<{ className?: string }>;
 const FiLogOut = FiIcons.FiLogOut as React.ComponentType<{ className?: string }>;
 const FiChevronLeft = FiIcons.FiChevronLeft as React.ComponentType<{ className?: string }>;
 const FiChevronRight = FiIcons.FiChevronRight as React.ComponentType<{ className?: string }>;
-
+const FiLink= FiIcons.FiLink as React.ComponentType<{ className?: string }>;
+const FiSearch = FiIcons.FiSearch as React.ComponentType<{ className?: string }>;
 const Sidebar: React.FC = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const toggleSidebar = () => setIsCollapsed(!isCollapsed);
@@ -26,13 +28,16 @@ const Sidebar: React.FC = () => {
 
       <NavMenu>
         <NavItem>
-          <NavLink to="/"><FiHome />{!isCollapsed && <span>Home</span>}</NavLink>
+          <NavLink to="/home"><FiHome />{!isCollapsed && <span>Home</span>}</NavLink>
         </NavItem>
         <NavItem>
           <NavLink to="/users"><FiUsers />{!isCollapsed && <span>Users</span>}</NavLink>
         </NavItem>
         <NavItem>
-          <NavLink to="/settings"><FiSettings />{!isCollapsed && <span>Settings</span>}</NavLink>
+          <NavLink to="/myUrls"><FiLink  />{!isCollapsed && <span>My Urls</span>}</NavLink>
+        </NavItem>
+          <NavItem>
+          <NavLink to="/search"><FiSearch  />{!isCollapsed && <span>Search Link</span>}</NavLink>
         </NavItem>
       </NavMenu>
 

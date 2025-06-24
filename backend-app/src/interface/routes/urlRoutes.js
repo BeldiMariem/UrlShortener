@@ -66,27 +66,6 @@ const {
  */
 router.post("/createUrl", authenticate, createShortenedUrlHandler(createShortenedUrl));
 
-/**
- * @swagger
- * /url/redirectOriginalUrl/{shortId}:
- *   get:
- *     tags: [URL]
- *     summary: Redirect to the original URL
- *     description: Redirects to the original URL associated with the provided short ID.
- *     parameters:
- *       - in: path
- *         name: shortId
- *         required: true
- *         schema:
- *           type: string
- *         example: abc123
- *     responses:
- *       302:
- *         description: Redirects to the original URL
- *       404:
- *         description: Short URL not found
- */
-router.get("/redirectOriginalUrl/:shortId", authenticate,redirectToOriginalUrlHandler(redirectToOriginalUrl));
 
 /**
  * @swagger
@@ -170,4 +149,25 @@ router.get("/listUrls", authenticate, listUserUrlsHandler(listUserUrls));
  *                   example: Internal server error
  */
 router.delete("/deleteUrl/:shortId", authenticate,  deleteUrlHandler(deleteUrl));
+/**
+ * @swagger
+ * /url/{shortId}:
+ *   get:
+ *     tags: [URL]
+ *     summary: Redirect to the original URL
+ *     description: Redirects to the original URL associated with the provided short ID.
+ *     parameters:
+ *       - in: path
+ *         name: shortId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         example: abc123
+ *     responses:
+ *       302:
+ *         description: Redirects to the original URL
+ *       404:
+ *         description: Short URL not found
+ */
+router.get("/:shortId", redirectToOriginalUrlHandler(redirectToOriginalUrl));
 module.exports = router;
