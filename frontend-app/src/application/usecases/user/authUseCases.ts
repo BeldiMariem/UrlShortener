@@ -40,3 +40,18 @@ export async function register(payload: IRegisterPayload): Promise<IUser> {
   
   return response.json();
 }
+export async function logout(): Promise<void> {
+  const token = localStorage.getItem("token");
+
+  await fetch("http://localhost:5000/auth/logout", {
+    method: "POST",
+    headers: {
+      "Authorization": `Bearer ${token}`,
+    },
+    credentials: "include",
+  });
+
+  // Clear local storage
+  localStorage.removeItem("token");
+  localStorage.removeItem("user");
+}

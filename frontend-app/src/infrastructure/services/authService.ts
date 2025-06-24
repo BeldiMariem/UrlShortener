@@ -14,3 +14,19 @@ export async function loginUser(email: string, password: string) {
   const data = await response.json();
   return data;
 }
+export async function logout(): Promise<void> {
+  const token = localStorage.getItem("token");
+
+  await fetch("http://localhost:5000/auth/logout", {
+    method: "POST",
+    headers: {
+      "Authorization": `Bearer ${token}`,
+    },
+    credentials: "include",
+  });
+
+  localStorage.removeItem("token");
+  localStorage.removeItem("user");
+  localStorage.removeItem("userId");
+
+}
