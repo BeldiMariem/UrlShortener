@@ -21,7 +21,7 @@ class CreateShortenedUrl {
     const shortId = shortid.generate();
     const url = new Url( {longUrl, shortId,title, userId} );
     this.urlRepository.create(url);
-    return { shortUrl: `${baseUrl}/url/redirectOriginalUrl/${shortId}` };
+    return { shortUrl: `${baseUrl}/url/${shortId}` };
 
 
   }
