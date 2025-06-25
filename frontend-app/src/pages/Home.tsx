@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Container, Card, Form, Button, Alert, Spinner } from "react-bootstrap";
-import { createUrlUsecase } from "../../application/usecases/url/urlUsecases";
+import { createUrlUsecase } from "../application/usecases/url/urlUsecases";
 
 const Home: React.FC = () => {
   const [longUrl, setLongUrl] = useState("");

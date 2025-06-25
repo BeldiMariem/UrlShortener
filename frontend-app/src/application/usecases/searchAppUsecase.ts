@@ -1,5 +1,4 @@
-// src/application/usecases/app/searchAppUsecase.ts
-import { IAppSearchResult } from "../../domain/models/AppSearch";
+import { IAppSearchResult } from "../../domain/interfaces/AppSearch";
 
 const API = process.env.REACT_APP_API_URL || "http://localhost:5000";
 

@@ -2,7 +2,7 @@ const IUserRepository = require("../../domain/interfaces/userRepository");
 const DuplicateUserError = require("../errors/duplicateUserError");
 const NotFoundError = require("../errors/notFoundError");
 const ValidationError = require("../errors/validationError");
-
+const bcrypt = require("bcryptjs");
 class UpdateUser {
   constructor(userRepository) {
     if (!(userRepository instanceof IUserRepository)) {
@@ -27,6 +27,16 @@ class UpdateUser {
         throw new DuplicateUserError("Email already in use");
       }
     }
+if (userData.password) {
+  const isSame = await bcrypt.compare(userData.password, user.password);
+  if (!isSame) {
+    const salt = await bcrypt.genSalt(10);
+    userData.password = await bcrypt.hash(userData.password, salt);
+  } else {
+    delete userData.password;
+  }
+}
+
 
     const updatedUser = await this.userRepository.update(userId, userData);
     return updatedUser;

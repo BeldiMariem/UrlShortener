@@ -1,4 +1,3 @@
-// src/presentation/pages/SearchPage.tsx
 import React, { useState } from "react";
 import {
   Container,
@@ -9,7 +8,7 @@ import {
   Spinner,
   Alert,
 } from "react-bootstrap";
-import { searchAppUsecase } from "../../application/usecases/searchAppUsecase";
+import { searchAppUsecase } from "../application/usecases/searchAppUsecase";
 
 const SearchPage: React.FC = () => {
   const [appName, setAppName] = useState("");

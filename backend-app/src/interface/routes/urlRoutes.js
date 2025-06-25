@@ -171,3 +171,4 @@ router.delete("/deleteUrl/:shortId", authenticate,  deleteUrlHandler(deleteUrl))
  */
 router.get("/:shortId", redirectToOriginalUrlHandler(redirectToOriginalUrl));
 module.exports = router;
+

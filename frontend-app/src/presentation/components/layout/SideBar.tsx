@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import * as FiIcons from "react-icons/fi";
-import { logout } from "../../infrastructure/services/authService";
-import { useNavigate } from "react-router-dom";
+import { logout } from "../../../infrastructure/services/authService";
+const storedUser = localStorage.getItem("user");
+const user = storedUser ? JSON.parse(storedUser) : null;
+const isAdmin = user?.role === "admin";
 const handleLogout = async () => {
   try {
     await logout();
@@ -11,7 +13,6 @@ const handleLogout = async () => {
     console.error("Logout failed", err);
   }
 };
-// Types
 type IconComponent = React.ComponentType<{ className?: string; size?: number }>;
 type ColorMode = "light" | "dark";
 
@@ -33,8 +34,8 @@ interface Theme {
   menuHover: string;
 }
 
-// Extracted icons
 const {
+  FiSettings,
   FiHome,
   FiUsers,
   FiLink,
@@ -44,15 +45,14 @@ const {
   FiChevronRight,
 } = FiIcons as Record<string, IconComponent>;
 
-// Navigation items
 const NAV_ITEMS: NavItem[] = [
   { to: "/home", label: "Home", icon: FiHome },
+  { to: "/profile", label: "Profile", icon: FiSettings },
   { to: "/users", label: "Users", icon: FiUsers },
   { to: "/myUrls", label: "My URLs", icon: FiLink },
   { to: "/search", label: "Search", icon: FiSearch },
 ];
 
-// Theme configurations
 const themes: Record<ColorMode, Theme> = {
   light: {
     primary: "#FFA000",
@@ -131,27 +131,32 @@ const Sidebar: React.FC<SidebarProps> = ({ mode = "dark" }) => {
       </Header>
 
       <NavMenu>
-        {NAV_ITEMS.map(({ to, label, icon: Icon }) => (
-          <NavItem key={to}>
-            <NavLinkStyled
-              to={to}
-              $active={pathname === to}
-              $collapsed={collapsed}
-              $theme={theme}
-            >
-              <IconWrapper $active={pathname === to} $theme={theme}>
-                <Icon size={18} />
-              </IconWrapper>
-              {!collapsed && (
-                <>
-                  <Label>{label}</Label>
-                  {pathname === to && <ActiveIndicator $theme={theme} />}
-                </>
-              )}
-            </NavLinkStyled>
-          </NavItem>
-        ))}
-      </NavMenu>
+  {NAV_ITEMS.map(({ to, label, icon: Icon }) => {
+    console.log(user?.role)
+    if (label === "Users" && !isAdmin) return null; 
+
+    return (
+      <NavItem key={to}>
+        <NavLinkStyled
+          to={to}
+          $active={pathname === to}
+          $collapsed={collapsed}
+          $theme={theme}
+        >
+          <IconWrapper $active={pathname === to} $theme={theme}>
+            <Icon size={18} />
+          </IconWrapper>
+          {!collapsed && (
+            <>
+              <Label>{label}</Label>
+              {pathname === to && <ActiveIndicator $theme={theme} />}
+            </>
+          )}
+        </NavLinkStyled>
+      </NavItem>
+    );
+  })}
+</NavMenu>
 
       <Footer $theme={theme}>
       <Link to="/">
@@ -174,7 +179,6 @@ const Sidebar: React.FC<SidebarProps> = ({ mode = "dark" }) => {
 
 export default Sidebar;
 
-// Styled Components
 const Container = styled.aside<{ collapsed: boolean; $theme: Theme }>`
   display: flex;
   flex-direction: column;

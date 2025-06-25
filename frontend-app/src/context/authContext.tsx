@@ -1,8 +1,7 @@
-// src/context/auth/AuthContext.tsx
 import React, { createContext, useState, ReactNode } from "react";
 import { ILoginPayload, IRegisterPayload, IUser } from "../domain/models/User";
-import { login as loginUser, register as registerUser } from "../application/usecases/user/authUseCases";
-import { logout as logoutAPI } from "../application/usecases/user/authUseCases";
+import { login as loginUser, register as registerUser } from "../application/usecases/auth/authUseCases";
+import { logout as logoutAPI } from "../application/usecases/auth/authUseCases";
 
 interface AuthContextProps {
   user: IUser | null;

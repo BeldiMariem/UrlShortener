@@ -1,11 +1,10 @@
-// src/components/Layout.tsx
 import React from "react";
 import styled from "styled-components";
-import Sidebar from "./SideBar";
+import Sidebar from "../presentation/components/layout/SideBar";
 
 interface LayoutProps {
   children: React.ReactNode;
-  showSidebar?: boolean;  // Changed from withSidebar to showSidebar for clarity
+  showSidebar?: boolean;  
 }
 
 const Layout: React.FC<LayoutProps> = ({ children, showSidebar = true }) => {

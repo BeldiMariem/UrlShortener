@@ -1,8 +1,7 @@
-// src/presentation/pages/RegisterPage.tsx
 import React, { useState } from "react";
-import { useAuth } from "../../context/authContext";
+import { useAuth } from "../context/authContext";
 import { Link } from "react-router-dom";
-import { IRegisterPayload } from "../../domain/models/User";
+import { IRegisterPayload } from "../domain/models/User";
 import { Form, Button, Alert, Card, Container } from "react-bootstrap";
 import "./AuthPage.css";
 
