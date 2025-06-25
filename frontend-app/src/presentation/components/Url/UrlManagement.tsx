@@ -202,7 +202,6 @@ const UrlManagement: React.FC = () => {
         onSave={handleAddUrl}
       />
 
-      {/* Long URL Modal */}
       <Modal show={showUrlModal} onHide={() => setShowUrlModal(false)}>
         <Modal.Header closeButton>
           <Modal.Title>Original Long URL</Modal.Title>

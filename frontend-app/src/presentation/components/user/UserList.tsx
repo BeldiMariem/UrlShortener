@@ -29,7 +29,7 @@ const UserList: React.FC = () => {
 
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 5;
+  const itemsPerPage = 3;
 
   useEffect(() => {
     loadUsers();
@@ -182,7 +182,6 @@ const UserList: React.FC = () => {
         </Card.Body>
       </Card>
 
-      {/* Edit User Modal */}
       <UserForm
         mode="edit"
         show={showEditModal}
@@ -209,7 +208,6 @@ const UserList: React.FC = () => {
         }}
       />
 
-      {/* Add User Modal */}
       <UserForm
         mode="add"
         show={showAddModal}

@@ -1,8 +1,7 @@
-// src/presentation/pages/AuthPage.tsx
 import React, { useState } from "react";
-import { useAuth } from "../../context/authContext";
+import { useAuth } from "../context/authContext";
 import { useNavigate } from "react-router-dom";
-import { ILoginPayload, IRegisterPayload } from "../../domain/models/User";
+import { ILoginPayload, IRegisterPayload } from "../domain/models/User";
 import {
   Form,
   Button,
@@ -49,7 +48,7 @@ const AuthPage: React.FC = () => {
       } else {
         await register(regForm);
       }
-      navigate("/users");
+      navigate("/home");
     } catch (err: any) {
       setError(err.message || "Authentication failed");
     }

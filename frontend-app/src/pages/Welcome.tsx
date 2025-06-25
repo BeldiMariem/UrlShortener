@@ -1,7 +1,7 @@
 import React from "react";
 import { Container, Button, Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import "./Welcome.css"; // Create this file to style the welcome page
+import "./Welcome.css";
 
 const Welcome: React.FC = () => {
   return (

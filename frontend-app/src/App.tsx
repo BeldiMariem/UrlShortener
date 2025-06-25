@@ -1,14 +1,15 @@
 import { Routes, Route } from 'react-router-dom'
-import LoginForm from './presentation/components/LoginForm'
-import Welcome from './presentation/components/Welcome'
+import LoginForm from './presentation/components/Pages/LoginForm'
+import Welcome from './presentation/components/Pages/Welcome'
 import UserList from './presentation/components/user/UserList'
-import Layout from './presentation/components/Layout'
+import Layout from './presentation/components/Pages/Layout'
 import { Outlet } from 'react-router-dom';
-import AuthPage from './presentation/components/LoginForm'
-import RegisterPage from './presentation/components/RegisterForm'
+import AuthPage from './presentation/components/Pages/LoginForm'
+import RegisterPage from './presentation/components/Pages/RegisterForm'
 import UrlManagement from './presentation/components/Url/UrlManagement'
-import Home from './presentation/components/Home'
-import SearchPage from './presentation/components/SearchPage'
+import Home from './presentation/components/Pages/Home'
+import SearchPage from './presentation/components/Pages/SearchPage'
+import ProfilePage from './presentation/components/Pages/ProfilePage'
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
       <Route path="/myUrls" element={<UrlManagement />} />
       <Route path="/home" element={<Home />} />
       <Route path="/search" element={<SearchPage  />} />
+      <Route path="/profile" element={<ProfilePage  />} />
 
 
       </Route>

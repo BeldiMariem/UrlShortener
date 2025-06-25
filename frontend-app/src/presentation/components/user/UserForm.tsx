@@ -1,4 +1,3 @@
-// UserForm.tsx
 import React, { useState, useEffect } from "react";
 import { Modal, Form, Button } from "react-bootstrap";
 import { IUserPayload, IUserUpdatePayload } from "../../../domain/models/User";
@@ -52,7 +51,6 @@ const UserForm: React.FC<UserFormProps> = ({
 
   const isValidEmail = (email: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
-  // Password required only in add mode
   const isPasswordValid = mode === "add" ? password.trim() !== "" : true;
 
   const isFormValid =
@@ -74,7 +72,6 @@ const UserForm: React.FC<UserFormProps> = ({
       };
       await onSave(payload);
     } else {
-      // Edit mode: password optional, send only if non-empty
       const payload: IUserUpdatePayload = {
         name,
         email,
