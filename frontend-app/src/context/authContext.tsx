@@ -7,7 +7,7 @@ interface AuthContextProps {
   user: IUser | null;
   login: (payload: ILoginPayload) => Promise<void>;
   register: (payload: IRegisterPayload) => Promise<void>;
-  isAuthenticated: boolean;  // <-- Add this
+  isAuthenticated: boolean;  
 }
 
 const AuthContext = createContext<AuthContextProps | undefined>(undefined);

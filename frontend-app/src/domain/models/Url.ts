@@ -12,6 +12,7 @@ export interface ICreateUrlPayload {
   userId: string;
 }
 
+
 export interface IUrlRepository {
   create(url: IUrl): Promise<IUrl>;
   findByShortId(shortId: string): Promise<IUrl | null>;
