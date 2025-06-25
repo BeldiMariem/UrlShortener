@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import * as FiIcons from "react-icons/fi";
-import { logout } from "../../../infrastructure/services/authService";
+import { logout } from "../../../infrastructure/services/auth/authService";
 const storedUser = localStorage.getItem("user");
 const user = storedUser ? JSON.parse(storedUser) : null;
 const isAdmin = user?.role === "admin";

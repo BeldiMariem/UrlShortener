@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Form, Button, Alert, Container, Card } from "react-bootstrap";
-import { updateProfile } from "../infrastructure/services/userService";
+import { updateProfile } from "../infrastructure/services/user/userService";
 
 
 const ProfilePage: React.FC = () => {

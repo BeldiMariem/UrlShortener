@@ -1,5 +1,5 @@
 import { ICreateUrlPayload } from "../../../domain/models/Url";
-import * as urlService from "../../../infrastructure/services/urlService";
+import * as urlService from "../../../infrastructure/services/url/urlService";
 
 export const createUrlUsecase = async (data: ICreateUrlPayload, token: string) => {
   const response = await urlService.createUrl(data, token);

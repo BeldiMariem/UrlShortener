@@ -1,4 +1,4 @@
-import * as userService from "../../../infrastructure/services/userService";
+import * as userService from "../../../infrastructure/services/user/userService";
 import { IUser, IUserPayload, IUserUpdatePayload } from "../../../domain/models/User";
 
 

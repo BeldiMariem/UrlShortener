@@ -1,5 +1,5 @@
 import axios from "axios";
-import { IUser, IUserPayload, IUserUpdatePayload } from "../../domain/models/User";
+import { IUser, IUserPayload, IUserUpdatePayload } from "../../../domain/models/User";
 
 const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
 

@@ -15,7 +15,7 @@ import {
   removeUser,
   editUser,
 } from "../../../application/usecases/user/userUsecases";
-import { createUser } from "../../../infrastructure/services/userService";
+import { createUser } from "../../../infrastructure/services/user/userService";
 import UserForm from "./UserForm";
 
 const UserList: React.FC = () => {
