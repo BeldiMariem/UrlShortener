@@ -1,17 +1,24 @@
 # URL Shortener Frontend
 
-This is the frontend for the URL Shortener application, built with **React (v19.1.0)**. It allows users to input a long URL, shorten it, and view the shortened URL. The UI is fully **responsive**
+This is the frontend for the URL Shortener application, built with **React (v19.1.0)**. It allows users to input a long URL, shorten it, and view the shortened URL.
 
 ## Table of Contents
 1. [Features](#features)
 2. [Clean Architecture](#clean-architecture)
-3. [Clean Code Approach](#clean-code-approach) 
-4. [Testing](#testing) 
-5. [Installation](#installation)
-6. [Run with Docker Compose (Optional)](#Run-with-Docker-Compose-(Optional))
-7. [Scripts](#scripts)
-8. [Usage](#usage)
-9. [License](#license)
+3. [Clean Code Approach](#clean-code-approach)
+4. [Authentication & User Management](#authentication--user-management) 
+5. [Testing](#testing) 
+6. [Installation](#installation)
+7. [Run with Docker Compose (Optional)](#Run-with-Docker-Compose-(Optional))
+8. [Available Scripts](#available-scripts)
+   - 8.1 [Register or Login](#register-or-login)
+   - 8.2 [Update Your Profile](#update-your-profile)
+   - 8.3 [Shorten a URL](#shorten-a-url)
+   - 8.4 [Manage Your URLs](#manage-your-urls)
+   - 8.5 [Redirect to Original URL](#redirect-to-original-url)
+   - 8.6 [Search for Apps](#search-for-apps)
+9. [Usage](#usage)
+10. [License](#license)
 
 ## Features
 - 🔗 **Shorten URLs:** Users can input a long URL and get a shortened version.
@@ -46,54 +53,54 @@ This approach ensures that anyone reviewing or extending the project can quickly
 
 ## Installation
 
-### 1. Clone the repository:
+ **1. Clone the repository:**
+
 ```bash
 git clone https://github.com/BeldiMariem/URLShortenerApp.git
 ```
 ```bash
 cd frontend-app
 ```
-### 2. Install dependencies:
+**2. Install dependencies:**
 ```bash
 npm install
 ```
-### 3. Create a .env file at the root and add:
+**3. Create a .env file at the root and add:**
 ```bash
 REACT_APP_API_URL=http://localhost:5000
 ```
-### 4. Start the development server:
+**4. Start the development server:**
 ```bash
 npm start
 ```
 ## 🐳 Run with Docker Compose (Optional)
 If you prefer running the app using Docker, you can use Docker Compose to set up the entire environment easily.
-### 1. Clone the repository:
+**1. Clone the repository:**
 ```bash
 git clone https://github.com/BeldiMariem/URLShortenerApp.git
 ```
 ```bash
 cd URLShortenerApp
 ```
-### 2. Start the app using Docker Compose:
+**2. Start the app using Docker Compose:**
 ```bash
 docker-compose up --build
 ```
-### 3. Access the application:
+**3. Access the application:**
 - **Frontend:** http://localhost:3000
 
-## Scripts
+## Available Scripts
 In the project directory, you can run:
-##
 -  ```bash
    npm start
     ```
 Runs the app in development mode.
-##
+
 -  ```bash
    npm test
     ```
 Launches the test runner in interactive watch mode.
-##
+
 - ```bash
   npx cypress open
     ```
@@ -109,7 +116,7 @@ After starting the development server, open your browser and go to [http://local
 - Upon successful authentication, you will be redirected to the homepage.
 
 ### 2. Update Your Profile
-- Edit your account details such as name, email, and password to keep your profile up to date.
+Edit your account details such as name, email, and password to keep your profile up to date.
 
 ### 3. Shorten a URL
 - Once logged in, enter a long URL into the input field.
@@ -125,11 +132,8 @@ After starting the development server, open your browser and go to [http://local
 - Click any short URL to be instantly redirected to the original destination.
 
 ### 6. Search for Apps
-- Enter the name of any app in the search field. The app’s link will be retrieved and displayed.
+Enter the name of any app in the search field.
+The app’s link will be retrieved and displayed.
 
-## License
-
-This project is licensed under the [MIT License](https://choosealicense.com/licenses/mit/).
-##
 
 ### Built with ❤️ by Mariem BELDI
