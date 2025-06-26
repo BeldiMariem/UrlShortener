@@ -11,13 +11,7 @@ This is the frontend for the URL Shortener application, built with **React (v19.
 6. [Docker](#Docker)
 7. [Available Scripts](#available-scripts)
 8. [Usage](#usage)
- - 8.1 [Register or Login](#register-or-login)
- - 8.2 [Update Your Profile](#update-your-profile)
- - 8.3 [Shorten a URL](#shorten-a-url)
- - 8.4 [Manage Your URLs](#manage-your-urls)
- - 8.5 [Redirect to Original URL](#redirect-to-original-url)
- - 8.6 [Search for Apps](#search-for-apps)
- 
+
 ## Features
 - 🔗 **Shorten URLs:** Users can input a long URL and get a shortened version.
 - 🔄 **Redirect:** Users can click on the shortened URL to be redirected to the original URL.
@@ -86,16 +80,17 @@ docker-compose up --build
 
 ## Available Scripts
 In the project directory, you can run:
+##
 -  ```bash
    npm start
     ```
 Runs the app in development mode.
-
+##
 -  ```bash
    npm test
     ```
 Launches the test runner in interactive watch mode.
-
+##
 - ```bash
   npx cypress open
     ```
@@ -105,30 +100,35 @@ Make sure both the frontend and backend servers are running before starting the 
 ## Usage
 
 After starting the development server, open your browser and go to [http://localhost:3000](http://localhost:3000).
-### 1. Register or Login
+
+**1. Register or Login**
 - To get started, create an account via the **Register** page.
 - If you already have an account, simply login using your credentials.
 - Upon successful authentication, you will be redirected to the homepage.
 
-### 2. Update Your Profile
-Edit your account details such as name, email, and password to keep your profile up to date.
+**2. Update Your Profile**
 
-### 3. Shorten a URL
+- Edit your account details such as name, email, and password to keep your profile up to date.
+
+**3. Shorten a URL**
+
 - Once logged in, enter a long URL into the input field.
 - Click the **"Shorten"** button.
 - A shortened URL will be generated and displayed.
 
-### 4. Manage Your URLs
+**4. Manage Your URLs**
+
 - View a list of all the URLs you’ve shortened.
 - Delete any URL you no longer need.
 - (Optional) Search through your shortened URLs by title.
 
-### 5. Redirect to Original URL
+**5. Redirect to Original URL**
+
 - Click any short URL to be instantly redirected to the original destination.
 
-### 6. Search for Apps
-Enter the name of any app in the search field.
-The app’s link will be retrieved and displayed.
+**6. Search for Apps**
+
+- Enter the name of any app in the search field. The app’s link will be retrieved and displayed.
 
 ##
 
