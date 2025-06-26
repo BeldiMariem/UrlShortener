@@ -1,0 +1,19 @@
+version: "3.9"
+services:
+  backend:
+    build:
+      context: ./backend-app     # folder where your backend code and Dockerfile are
+      dockerfile: Dockerfile     # this is optional if the file is literally named Dockerfile
+    ports:
+      - "5000:5000"
+    env_file:
+      - ./backend-app/.env       # path to your backend .env file
+    volumes:
+      - ./backend-app:/app       # optional: only for local development
+    restart: unless-stopped
+  frontend:
+    build: ./frontend-app
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend

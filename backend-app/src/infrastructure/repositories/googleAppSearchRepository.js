@@ -1,5 +1,5 @@
 const axios = require('axios');
-const IAppSearchRepository = require('../../domain/interfaces/AppSearchRepository');
+const IAppSearchRepository = require('../../domain/interfaces/appSearchRepository');
 const config = require("../config/env");
 
 class GoogleAppSearchRepository extends IAppSearchRepository{

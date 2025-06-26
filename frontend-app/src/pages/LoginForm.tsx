@@ -46,10 +46,12 @@ const AuthPage: React.FC = () => {
     try {
       if (isLogin) {
         await login(loginForm);
+        navigate("/home");
       } else {
         await register(regForm);
+        navigate("/auth");
+
       }
-      navigate("/home");
     } catch (err) {
       console.error("Authentication error:", err);
       setError("Authentication failed"); 

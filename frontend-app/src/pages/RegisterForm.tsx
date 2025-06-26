@@ -19,9 +19,24 @@ const RegisterPage: React.FC = () => {
     setRegForm((prev) => ({ ...prev, [name]: value }));
   };
 
+  // Fonction simple pour valider l'email
+  const isValidEmail = (email: string) => {
+    return /\S+@\S+\.\S+/.test(email);
+  };
+
+  // Vérifie que tous les champs sont remplis et email valide
+  const isFormValid =
+    regForm.name.trim() !== "" &&
+    isValidEmail(regForm.email) &&
+    regForm.password.trim() !== "";
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
+    if (!isFormValid) {
+      setError("Please fill all fields with valid information");
+      return;
+    }
     try {
       await register(regForm);
     } catch (err: any) {
@@ -59,7 +74,11 @@ const RegisterPage: React.FC = () => {
                     onChange={handleChange}
                     placeholder="example@email.com"
                     required
+                    isInvalid={regForm.email !== "" && !isValidEmail(regForm.email)}
                   />
+                  <Form.Control.Feedback type="invalid">
+                    Please enter a valid email.
+                  </Form.Control.Feedback>
                 </Form.Group>
                 <Form.Group className="mb-3">
                   <Form.Label>Password</Form.Label>
@@ -73,10 +92,15 @@ const RegisterPage: React.FC = () => {
                   />
                 </Form.Group>
 
-                <Button type="submit" variant="warning" className="w-100 mb-3">
+                <Button
+                  type="submit"
+                  variant="warning"
+                  className="w-100 mb-3"
+                  disabled={!isFormValid}
+                >
                   Register
                 </Button>
-                
+
                 <div className="text-center">
                   <span>Already have an account? </span>
                   <Link to="/login" className="text-warning">

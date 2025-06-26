@@ -34,9 +34,8 @@ export async function updateUser(id: string, payload: IUserUpdatePayload): Promi
 }
 export async function updateProfile(id: string,data: { name?: string; email?: string; password?: string }) {
   const cleanId = id.replace(/^"|"$/g, '');
-
   const token = localStorage.getItem("token");
-  const response = await fetch(`http://localhost:5000/auth/profile/${cleanId}`, {
+  const response = await fetch(`${API_URL}/auth/profile/${cleanId}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
