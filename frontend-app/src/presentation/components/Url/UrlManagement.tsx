@@ -18,6 +18,7 @@ import {
 } from "../../../application/usecases/url/urlUsecases";
 import { IUrl } from "../../../domain/models/Url";
 import UrlForm from "./UrlForm";
+const API_URL = process.env.REACT_APP_API_URL;
 
 const UrlManagement: React.FC = () => {
   const [urls, setUrls] = useState<IUrl[]>([]);
@@ -26,13 +27,12 @@ const UrlManagement: React.FC = () => {
 
   const [showAddModal, setShowAddModal] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
-
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 5;
 
   const [showUrlModal, setShowUrlModal] = useState(false);
   const [selectedLongUrl, setSelectedLongUrl] = useState<string | null>(null);
 
+  const itemsPerPage = 5;
   const token = localStorage.getItem("token") || "";
 
   useEffect(() => {
@@ -86,88 +86,91 @@ const UrlManagement: React.FC = () => {
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentUrls = filteredUrls.slice(indexOfFirstItem, indexOfLastItem);
-
   const totalPages = Math.ceil(filteredUrls.length / itemsPerPage);
 
   return (
-    <Container className="mt-4">
+    <Container className="mt-4 px-3">
       <Card>
         <Card.Body>
-          <Card.Title className="d-flex justify-content-between align-items-center">
-            <span>URL Management</span>
+          <Card.Title className="d-flex justify-content-between align-items-center flex-wrap">
+            <span className="mb-2 mb-md-0">URL Management</span>
             <Button variant="success" onClick={() => setShowAddModal(true)}>
               Add URL
             </Button>
           </Card.Title>
 
-          <InputGroup className="mb-3 mt-3">
+          <InputGroup className="my-3">
             <Form.Control
-              placeholder="Search by title or short URL"
+              placeholder="Search by title, long or short URL"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
           </InputGroup>
 
           {error && <Alert variant="danger">{error}</Alert>}
+
           {loading ? (
             <div className="text-center">
               <Spinner animation="border" />
             </div>
           ) : (
-            <Table striped bordered hover responsive>
-              <thead>
-                <tr>
-                  <th>Title</th>
-                  <th>Short URL</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {currentUrls.length > 0 ? (
-                  currentUrls.map((url) => (
-                    <tr key={url.shortId}>
-                      <td>{url.title}</td>
-                      <td>
-                        <a
-                          href={`http://localhost:5000/url/${url.shortId}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          {url.shortId}
-                        </a>
-                      </td>
-                      <td>
-                        <Button
-                          variant="info"
-                          size="sm"
-                          className="me-2"
-                          onClick={() => handleViewLongUrl(url.longUrl)}
-                        >
-                          View URL
-                        </Button>
-                        <Button
-                          variant="danger"
-                          size="sm"
-                          onClick={() => handleDelete(url.shortId)}
-                        >
-                          Delete
-                        </Button>
+            <div className="table-responsive">
+              <Table striped bordered hover className="text-break align-middle">
+                <thead>
+                  <tr>
+                    <th>Title</th>
+                    <th>Short URL</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {currentUrls.length > 0 ? (
+                    currentUrls.map((url) => (
+                      <tr key={url.shortId}>
+                        <td>{url.title}</td>
+                        <td style={{ wordBreak: "break-word" }}>
+                          <a
+                            href={`${API_URL}/url/${url.shortId}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            {url.shortId}
+                          </a>
+                        </td>
+                        <td>
+                          <div className="d-grid gap-2 d-md-flex">
+                            <Button
+                              variant="info"
+                              size="sm"
+                              onClick={() => handleViewLongUrl(url.longUrl)}
+                            >
+                              View
+                            </Button>
+                            <Button
+                              variant="danger"
+                              size="sm"
+                              onClick={() => handleDelete(url.shortId)}
+                            >
+                              Delete
+                            </Button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan={3} className="text-center">
+                        No URLs found.
                       </td>
                     </tr>
-                  ))
-                ) : (
-                  <tr>
-                    <td colSpan={3} className="text-center">
-                      No URLs found.
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </Table>
+                  )}
+                </tbody>
+              </Table>
+            </div>
           )}
 
           {totalPages > 1 && (
-            <Pagination className="justify-content-center">
+            <Pagination className="justify-content-center mt-3">
               <Pagination.Prev
                 disabled={currentPage === 1}
                 onClick={() => setCurrentPage((prev) => prev - 1)}
@@ -177,11 +180,6 @@ const UrlManagement: React.FC = () => {
                   key={i}
                   active={i + 1 === currentPage}
                   onClick={() => setCurrentPage(i + 1)}
-                  style={{
-                    backgroundColor: "#1c2541",
-                    borderColor: "#1c2541",
-                    color: "white",
-                  }}
                 >
                   {i + 1}
                 </Pagination.Item>
@@ -195,18 +193,22 @@ const UrlManagement: React.FC = () => {
         </Card.Body>
       </Card>
 
-      {/* Add URL Modal */}
       <UrlForm
         show={showAddModal}
         onClose={() => setShowAddModal(false)}
         onSave={handleAddUrl}
       />
 
-      <Modal show={showUrlModal} onHide={() => setShowUrlModal(false)}>
+      <Modal
+        size="lg"
+        centered
+        show={showUrlModal}
+        onHide={() => setShowUrlModal(false)}
+      >
         <Modal.Header closeButton>
           <Modal.Title>Original Long URL</Modal.Title>
         </Modal.Header>
-        <Modal.Body>
+        <Modal.Body style={{ wordBreak: "break-word" }}>
           <a
             href={selectedLongUrl || "#"}
             target="_blank"

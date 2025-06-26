@@ -13,7 +13,6 @@ function getAuthHeader() {
 }
 
 export async function fetchUsers(): Promise<IUser[]> {
-  console.log(localStorage.getItem("token"))
   const res = await axios.get(`${API_URL}/user/getAllUsers`, getAuthHeader());
   return res.data;
 }

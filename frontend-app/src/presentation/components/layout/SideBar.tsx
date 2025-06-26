@@ -132,7 +132,6 @@ const Sidebar: React.FC<SidebarProps> = ({ mode = "dark" }) => {
 
       <NavMenu>
   {NAV_ITEMS.map(({ to, label, icon: Icon }) => {
-    console.log(user?.role)
     if (label === "Users" && !isAdmin) return null; 
 
     return (

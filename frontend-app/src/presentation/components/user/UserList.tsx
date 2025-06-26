@@ -38,7 +38,7 @@ const UserList: React.FC = () => {
   const loadUsers = async () => {
     try {
       const data = await getAllUsers();
-      setUsers(data.reverse()); // latest first
+      setUsers(data.reverse());
     } catch {
       setError("Failed to fetch users");
     } finally {
@@ -77,10 +77,10 @@ const UserList: React.FC = () => {
   );
 
   return (
-    <Container className="mt-4">
+    <Container className="mt-4 px-3">
       <Card>
         <Card.Body>
-          <Card.Title className="d-flex justify-content-between align-items-center">
+          <Card.Title className="d-flex justify-content-between align-items-center flex-wrap">
             <span>User Management</span>
             <Button variant="success" onClick={() => setShowAddModal(true)}>
               Add User
@@ -90,7 +90,7 @@ const UserList: React.FC = () => {
           <Form.Control
             type="text"
             placeholder="Search by name or email"
-            className="mb-3 mt-3"
+            className="my-3"
             value={searchTerm}
             onChange={(e) => {
               setSearchTerm(e.target.value);
@@ -106,50 +106,53 @@ const UserList: React.FC = () => {
             </div>
           ) : (
             <>
-              <Table striped bordered hover responsive>
-                <thead>
-                  <tr>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Role</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {paginatedUsers.length > 0 ? (
-                    paginatedUsers.map((user) => (
-                      <tr key={user._id}>
-                        <td>{user.name}</td>
-                        <td>{user.email}</td>
-                        <td>{user.role}</td>
-                        <td>
-                          <Button
-                            variant="warning"
-                            size="sm"
-                            className="me-2"
-                            onClick={() => handleEditClick(user)}
-                          >
-                            Edit
-                          </Button>
-                          <Button
-                            variant="danger"
-                            size="sm"
-                            onClick={() => handleDelete(user)}
-                          >
-                            Delete
-                          </Button>
+              <div className="table-responsive">
+                <Table striped bordered hover className="text-break align-middle">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Email</th>
+                      <th>Role</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {paginatedUsers.length > 0 ? (
+                      paginatedUsers.map((user) => (
+                        <tr key={user._id}>
+                          <td>{user.name}</td>
+                          <td>{user.email}</td>
+                          <td>{user.role}</td>
+                          <td>
+                            <div className="d-grid gap-2 d-md-flex">
+                              <Button
+                                variant="warning"
+                                size="sm"
+                                onClick={() => handleEditClick(user)}
+                              >
+                                Edit
+                              </Button>
+                              <Button
+                                variant="danger"
+                                size="sm"
+                                onClick={() => handleDelete(user)}
+                              >
+                                Delete
+                              </Button>
+                            </div>
+                          </td>
+                        </tr>
+                      ))
+                    ) : (
+                      <tr>
+                        <td colSpan={4} className="text-center">
+                          No users found.
                         </td>
                       </tr>
-                    ))
-                  ) : (
-                    <tr>
-                      <td colSpan={4} className="text-center">
-                        No users found.
-                      </td>
-                    </tr>
-                  )}
-                </tbody>
-              </Table>
+                    )}
+                  </tbody>
+                </Table>
+              </div>
 
               {totalPages > 1 && (
                 <Pagination className="justify-content-center mt-3">

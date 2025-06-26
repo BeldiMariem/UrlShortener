@@ -53,7 +53,6 @@ const AuthPage: React.FC = () => {
 
       }
     } catch (err) {
-      console.error("Authentication error:", err);
       setError("Authentication failed"); 
     }
   };

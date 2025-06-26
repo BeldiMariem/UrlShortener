@@ -26,7 +26,6 @@
 }
 
 .Card:hover {
-  /* transform: scale(1.05); */
   box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.6);
 }
 
