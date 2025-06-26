@@ -1,9 +1,9 @@
 import { ILoginPayload, IRegisterPayload, IUser } from "../../../domain/models/User";
 
-const API_URL = "http://localhost:5000/auth";
+const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
 
 export async function login(payload: ILoginPayload): Promise<IUser> {
-  const response = await fetch(`${API_URL}/login`, {
+  const response = await fetch(`${API_URL}/auth/login`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     credentials: "include",
@@ -27,7 +27,7 @@ export async function login(payload: ILoginPayload): Promise<IUser> {
   return data.user;
 }
 export async function register(payload: IRegisterPayload): Promise<IUser> {
-  const response = await fetch(`${API_URL}/register`, {
+  const response = await fetch(`${API_URL}/auth/register`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     credentials: "include",
@@ -42,7 +42,7 @@ export async function register(payload: IRegisterPayload): Promise<IUser> {
 export async function logout(): Promise<void> {
   const token = localStorage.getItem("token");
 
-  await fetch("http://localhost:5000/auth/logout", {
+  await fetch(`${API_URL}/auth/logout`, {
     method: "POST",
     headers: {
       "Authorization": `Bearer ${token}`,

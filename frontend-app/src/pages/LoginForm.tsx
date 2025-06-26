@@ -23,6 +23,7 @@ const AuthPage: React.FC = () => {
     email: "",
     password: "",
   });
+
   const [regForm, setRegForm] = useState<IRegisterPayload>({
     name: "",
     email: "",
@@ -45,12 +46,14 @@ const AuthPage: React.FC = () => {
     try {
       if (isLogin) {
         await login(loginForm);
+        navigate("/home");
       } else {
         await register(regForm);
+        navigate("/auth");
+
       }
-      navigate("/home");
-    } catch (err: any) {
-      setError(err.message || "Authentication failed");
+    } catch (err) {
+      setError("Authentication failed"); 
     }
   };
 
@@ -92,7 +95,14 @@ const AuthPage: React.FC = () => {
                 </ToggleButton>
               </ToggleButtonGroup>
 
-              {error && <Alert variant="danger">{error}</Alert>}
+              {error && (
+                <Alert
+                  variant="danger"
+                  data-testid="auth-error" 
+                >
+                  {error}
+                </Alert>
+              )}
 
               <Form onSubmit={handleSubmit}>
                 {!isLogin && (
