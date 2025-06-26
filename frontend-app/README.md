@@ -1,46 +1,135 @@
-# Getting Started with Create React App
+# URL Shortener Frontend
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This is the frontend for the URL Shortener application, built with **React (v19.1.0)**. It allows users to input a long URL, shorten it, and view the shortened URL. The UI is fully **responsive**
 
-## Available Scripts
+## Table of Contents
+1. [Features](#features)
+2. [Clean Architecture](#clean-architecture)
+3. [Clean Code Approach](#clean-code-approach) 
+4. [Testing](#testing) 
+5. [Installation](#installation)
+6. [Run with Docker Compose (Optional)](#Run-with-Docker-Compose-(Optional))
+7. [Scripts](#scripts)
+8. [Usage](#usage)
+9. [License](#license)
 
+## Features
+- 🔗 **Shorten URLs:** Users can input a long URL and get a shortened version.
+- 🔄 **Redirect:** Users can click on the shortened URL to be redirected to the original URL.
+- 🔐 **User Authentication:** Secure login and registration with token-based authentication.
+- 🗂️ **URL Management**: Users can view and delete their shortened URLs.
+- 👤 **User Management**: Token-based authentication system with role-based access control. Only administrators can access user-related operations such as listing, updating, or deleting users.
+- 🔍 **Search Functionality**: Users can search URLs or apps efficiently.
+- ✏️ **Profile Update**: Users can update their profile details such as name, email, and password securely.
+
+## Clean Architecture
+I decided to follow **Clean Architecture** to keep the app well-structured, easy to test, and scalable in the long run. Each layer has a clear responsibility — which really helped me stay organized and avoid spaghetti code as the project grew.
+
+- **Domain:** Contains the core business models and logic.
+
+- **Application:** Manages use cases that coordinate domain logic.
+
+- **Infrastructure:** Deals with external systems like API requests.
+
+- **Presentation (UI):** Built with React, this layer handles everything the user interacts with.
+
+
+##  Clean Code Approach
+I made a conscious effort to follow clean code principles to ensure the code is easy to read, maintain, and extend. I believe that well-written code should speak for itself, so I focused on making it clear and intuitive, minimizing the need for comments. I spent time ensuring that variables and functions have names that clearly describe their purpose, which helps anyone reading the code understand what’s happening right away.
+
+This approach ensures that anyone reviewing or extending the project can quickly understand the logic and confidently make changes without confusion.
+
+## Testing
+- **Unit Tests**: Test core logic such as authentication services and URL operations using **Jest**.
+
+- **End-to-End Tests**: Use **Cypress** to simulate real user journeys and ensure the app works as expected from the UI perspective.
+
+## Installation
+
+### 1. Clone the repository:
+```bash
+git clone https://github.com/BeldiMariem/URLShortenerApp.git
+```
+```bash
+cd frontend-app
+```
+### 2. Install dependencies:
+```bash
+npm install
+```
+### 3. Create a .env file at the root and add:
+```bash
+REACT_APP_API_URL=http://localhost:5000
+```
+### 4. Start the development server:
+```bash
+npm start
+```
+## 🐳 Run with Docker Compose (Optional)
+If you prefer running the app using Docker, you can use Docker Compose to set up the entire environment easily.
+### 1. Clone the repository:
+```bash
+git clone https://github.com/BeldiMariem/URLShortenerApp.git
+```
+```bash
+cd URLShortenerApp
+```
+### 2. Start the app using Docker Compose:
+```bash
+docker-compose up --build
+```
+### 3. Access the application:
+- **Frontend:** http://localhost:3000
+
+## Scripts
 In the project directory, you can run:
+##
+-  ```bash
+   npm start
+    ```
+Runs the app in development mode.
+##
+-  ```bash
+   npm test
+    ```
+Launches the test runner in interactive watch mode.
+##
+- ```bash
+  npx cypress open
+    ```
+Opens the Cypress Test Runner for end-to-end testing.
+Make sure both the frontend and backend servers are running before starting the tests.
 
-### `npm start`
+## Usage
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+After starting the development server, open your browser and go to [http://localhost:3000](http://localhost:3000).
+### 1. Register or Login
+- To get started, create an account via the **Register** page.
+- If you already have an account, simply login using your credentials.
+- Upon successful authentication, you will be redirected to the homepage.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### 2. Update Your Profile
+- Edit your account details such as name, email, and password to keep your profile up to date.
 
-### `npm test`
+### 3. Shorten a URL
+- Once logged in, enter a long URL into the input field.
+- Click the **"Shorten"** button.
+- A shortened URL will be generated and displayed.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### 4. Manage Your URLs
+- View a list of all the URLs you’ve shortened.
+- Delete any URL you no longer need.
+- (Optional) Search through your shortened URLs by title.
 
-### `npm run build`
+### 5. Redirect to Original URL
+- Click any short URL to be instantly redirected to the original destination.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### 6. Search for Apps
+- Enter the name of any app in the search field. The app’s link will be retrieved and displayed.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## License
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+This project is licensed under the [MIT License](https://choosealicense.com/licenses/mit/).
+##
 
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Built with ❤️ by Mariem BELDI
