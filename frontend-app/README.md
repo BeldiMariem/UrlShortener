@@ -135,5 +135,6 @@ Edit your account details such as name, email, and password to keep your profile
 Enter the name of any app in the search field.
 The app’s link will be retrieved and displayed.
 
+##
 
 ### Built with ❤️ by Mariem BELDI
