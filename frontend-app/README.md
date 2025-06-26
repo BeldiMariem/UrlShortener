@@ -6,20 +6,18 @@ This is the frontend for the URL Shortener application, built with **React (v19.
 1. [Features](#features)
 2. [Clean Architecture](#clean-architecture)
 3. [Clean Code Approach](#clean-code-approach)
-4. [Authentication & User Management](#authentication--user-management) 
-5. [Testing](#testing) 
-6. [Installation](#installation)
-7. [Run with Docker Compose (Optional)](#Run-with-Docker-Compose-(Optional))
-8. [Available Scripts](#available-scripts)
-   - 8.1 [Register or Login](#register-or-login)
-   - 8.2 [Update Your Profile](#update-your-profile)
-   - 8.3 [Shorten a URL](#shorten-a-url)
-   - 8.4 [Manage Your URLs](#manage-your-urls)
-   - 8.5 [Redirect to Original URL](#redirect-to-original-url)
-   - 8.6 [Search for Apps](#search-for-apps)
-9. [Usage](#usage)
-10. [License](#license)
-
+4. [Testing](#testing) 
+5. [Installation](#installation)
+6. [Docker](#Docker)
+7. [Available Scripts](#available-scripts)
+8. [Usage](#usage)
+ - 8.1 [Register or Login](#register-or-login)
+ - 8.2 [Update Your Profile](#update-your-profile)
+ - 8.3 [Shorten a URL](#shorten-a-url)
+ - 8.4 [Manage Your URLs](#manage-your-urls)
+ - 8.5 [Redirect to Original URL](#redirect-to-original-url)
+ - 8.6 [Search for Apps](#search-for-apps)
+ 
 ## Features
 - 🔗 **Shorten URLs:** Users can input a long URL and get a shortened version.
 - 🔄 **Redirect:** Users can click on the shortened URL to be redirected to the original URL.
@@ -30,7 +28,7 @@ This is the frontend for the URL Shortener application, built with **React (v19.
 - ✏️ **Profile Update**: Users can update their profile details such as name, email, and password securely.
 
 ## Clean Architecture
-I decided to follow **Clean Architecture** to keep the app well-structured, easy to test, and scalable in the long run. Each layer has a clear responsibility — which really helped me stay organized and avoid spaghetti code as the project grew.
+I decided to follow **Clean Architecture** to keep the app well-structured, easy to test, and scalable in the long run. Each layer has a clear responsibility — which really helped me stay organized.
 
 - **Domain:** Contains the core business models and logic.
 
@@ -73,21 +71,18 @@ REACT_APP_API_URL=http://localhost:5000
 ```bash
 npm start
 ```
-## 🐳 Run with Docker Compose (Optional)
-If you prefer running the app using Docker, you can use Docker Compose to set up the entire environment easily.
-**1. Clone the repository:**
+##  🐳 Docker
+### Build & Run with Docker**
 ```bash
-git clone https://github.com/BeldiMariem/URLShortenerApp.git
+# from frontend-app folder
+docker build -t urlshortener-frontend .
+docker run -p 5000:5000 --env-file .env urlshortener-frontend
 ```
+### With Docker Compose
 ```bash
-cd URLShortenerApp
-```
-**2. Start the app using Docker Compose:**
-```bash
+# from app folder
 docker-compose up --build
 ```
-**3. Access the application:**
-- **Frontend:** http://localhost:3000
 
 ## Available Scripts
 In the project directory, you can run:
