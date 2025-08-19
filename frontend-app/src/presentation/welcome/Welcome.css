@@ -1,0 +1,56 @@
+.welcome-page {
+  background: linear-gradient(135deg, #fdfbfb, #ebedee);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-bottom: 50px;
+}
+
+.hero-section {
+  padding-top: 100px;
+  padding-bottom: 60px;
+}
+
+.hero-section h1 {
+  color: #333;
+}
+
+.hero-section .highlight {
+  color: #ff9800;
+}
+
+.hero-section p {
+  color: #555;
+}
+
+.hero-form input {
+  max-width: 400px;
+  border-radius: 10px;
+}
+
+.hero-form button {
+  border-radius: 10px;
+}
+
+.features-section {
+  padding: 60px 20px;
+}
+
+.feature-card {
+  border-radius: 20px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+}
+
+.cta-section {
+  background: #ff9800;
+  color: white;
+  padding: 60px 20px;
+  margin-top: 60px;
+  border-radius: 20px;
+}

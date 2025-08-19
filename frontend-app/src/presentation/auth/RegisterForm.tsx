@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { useAuth } from "../context/authContext";
+import { useAuth } from "../../context/authContext";
 import { Link } from "react-router-dom";
-import { IRegisterPayload } from "../domain/models/User";
+import { IRegisterPayload } from "../../domain/models/User";
 import { Form, Button, Alert, Card, Container } from "react-bootstrap";
 import "./AuthPage.css";
 
@@ -19,12 +19,10 @@ const RegisterPage: React.FC = () => {
     setRegForm((prev) => ({ ...prev, [name]: value }));
   };
 
-  // Fonction simple pour valider l'email
   const isValidEmail = (email: string) => {
     return /\S+@\S+\.\S+/.test(email);
   };
 
-  // Vérifie que tous les champs sont remplis et email valide
   const isFormValid =
     regForm.name.trim() !== "" &&
     isValidEmail(regForm.email) &&

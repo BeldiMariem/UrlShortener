@@ -2,9 +2,8 @@ import React, { useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import * as FiIcons from "react-icons/fi";
-import { logout } from "../../../infrastructure/services/auth/authService";
+import { logout } from "../../infrastructure/services/auth/authService";
 
-// ------------------ Types & Constants ------------------
 type IconComponent = React.ComponentType<{ className?: string; size?: number }>;
 type ColorMode = "light" | "dark";
 
@@ -26,12 +25,10 @@ interface Theme {
   menuHover: string;
 }
 
-// ------------------ Auth ------------------
 const storedUser = localStorage.getItem("user");
 const user = storedUser ? JSON.parse(storedUser) : null;
 const isAdmin = user?.role === "admin";
 
-// ------------------ Icons ------------------
 const {
   FiSettings,
   FiHome,
@@ -51,7 +48,6 @@ const NAV_ITEMS: NavItem[] = [
   { to: "/search", label: "Search", icon: FiSearch },
 ];
 
-// ------------------ Themes ------------------
 const themes: Record<ColorMode, Theme> = {
   light: {
     primary: "#FFA000",
@@ -68,16 +64,15 @@ const themes: Record<ColorMode, Theme> = {
     primary: "#FFC107",
     primaryLight: "#FFECB3",
     primaryDark: "#FFA000",
-    background: "#1F2937",
+    background: "#111827",
     text: "#F3F4F6",
     textSecondary: "#9CA3AF",
     border: "#374151",
-    activeText: "black",
-    menuHover: "#4B5563",
+    activeText: "#111827",
+    menuHover: "#1F2937",
   },
 };
 
-// ------------------ Component ------------------
 interface SidebarProps {
   mode?: ColorMode;
 }
@@ -156,8 +151,6 @@ const Sidebar: React.FC<SidebarProps> = ({ mode = "dark" }) => {
 
 export default Sidebar;
 
-// ------------------ Styled Components ------------------
-
 const Container = styled.aside<{ $collapsed: boolean; $theme: Theme }>`
   display: flex;
   flex-direction: column;
@@ -165,14 +158,11 @@ const Container = styled.aside<{ $collapsed: boolean; $theme: Theme }>`
   width: ${({ $collapsed }) => ($collapsed ? "80px" : "260px")};
   background: ${({ $theme }) => $theme.background};
   color: ${({ $theme }) => $theme.text};
-  transition: width 0.3s ease;
+  transition: width 0.3s ease, background 0.3s ease;
   border-right: 1px solid ${({ $theme }) => $theme.border};
   position: sticky;
   top: 0;
-  box-shadow: ${({ $theme }) =>
-    $theme.background === themes.dark.background
-      ? "0 4px 6px -1px rgba(0, 0, 0, 0.3)"
-      : "0 4px 6px -1px rgba(0, 0, 0, 0.05)"};
+  box-shadow: 4px 0 12px rgba(0, 0, 0, 0.35);
 `;
 
 const Header = styled.header<{ $theme: Theme }>`
@@ -191,16 +181,16 @@ const BrandContainer = styled.div`
 
 const Brand = styled.h3<{ $theme: Theme }>`
   margin: 0;
-  font-size: 1.3rem;
+  font-size: 1.4rem;
   font-weight: 700;
-  color: ${({ $theme }) => $theme.primaryDark};
+  color: ${({ $theme }) => $theme.primary};
 `;
 
 const LinkIcon = styled.span<{ $theme: Theme }>`
   display: flex;
   align-items: center;
   justify-content: center;
-  color: ${({ $theme }) => $theme.primary};
+  color: ${({ $theme }) => $theme.primaryLight};
   transition: transform 0.2s ease;
   &:hover {
     transform: scale(1.1);
@@ -215,6 +205,7 @@ const ToggleButton = styled.button<{ $theme: Theme }>`
   cursor: pointer;
   padding: 0.5rem;
   border-radius: 50%;
+  transition: all 0.2s ease;
   &:hover {
     background: ${({ $theme }) => $theme.primaryLight};
     color: ${({ $theme }) => $theme.primaryDark};
@@ -251,26 +242,22 @@ const NavLinkStyled = styled(NavLink)<{
   $collapsed: boolean;
   $theme: Theme;
 }>`
-  position: relative;
   display: flex;
   align-items: center;
   gap: ${({ $collapsed }) => ($collapsed ? "0" : "0.75rem")};
   padding: ${({ $collapsed }) => ($collapsed ? "0.75rem" : "0.75rem 1rem")};
-  color: ${({ $active, $theme }) => ($active ? $theme.activeText : $theme.text)};
+  color: ${({ $active, $theme }) => ($active ? $theme.primary : $theme.textSecondary)};
   text-decoration: none;
   font-size: 0.95rem;
   font-weight: ${({ $active }) => ($active ? "600" : "500")};
-  border-radius: 8px;
+  border-radius: 10px;
   justify-content: ${({ $collapsed }) => ($collapsed ? "center" : "flex-start")};
-  background: ${({ $active, $theme }) => ($active ? $theme.primaryLight : "transparent")};
+  background: ${({ $active, $theme }) => ($active ? "rgba(255, 193, 7, 0.15)" : "transparent")};
+  transition: all 0.25s ease;
 
   &:hover {
-    background: ${({ $theme }) => $theme.menuHover};
+    background: ${({ $theme }) => "rgba(255, 193, 7, 0.2)"};
     color: ${({ $theme }) => $theme.primaryDark};
-    ${IconWrapper} {
-      background: ${({ $active, $theme }) => ($active ? $theme.primary : $theme.primaryLight)};
-      color: ${({ $active, $theme }) => ($active ? $theme.activeText : $theme.primaryDark)};
-    }
   }
 `;
 
@@ -285,18 +272,14 @@ const LogoutButton = styled.button<{ $collapsed: boolean; $theme: Theme }>`
   cursor: pointer;
   color: ${({ $theme }) => $theme.text};
   font-size: 0.95rem;
-  border-radius: 8px;
   font-weight: 500;
+  border-radius: 8px;
   justify-content: ${({ $collapsed }) => ($collapsed ? "center" : "flex-start")};
   transition: background 0.2s ease, color 0.2s ease;
 
   &:hover {
-    background: ${({ $theme }) => $theme.menuHover};
+    background: ${({ $theme }) => "rgba(255, 193, 7, 0.15)"};
     color: ${({ $theme }) => $theme.primaryDark};
-    ${IconWrapper} {
-      background: ${({ $theme }) => $theme.primaryLight};
-      color: ${({ $theme }) => $theme.primaryDark};
-    }
   }
 `;
 

@@ -1,15 +1,13 @@
 import { Routes, Route } from 'react-router-dom'
-import LoginForm from './pages/LoginForm'
-import Welcome from './pages/Welcome'
-import UserList from './presentation/components/user/UserList'
-import Layout from './pages/Layout'
+import Welcome from './presentation/welcome/Welcome'
+import UserList from './presentation/user/UserList'
+import Layout from './presentation/Layout'
 import { Outlet } from 'react-router-dom';
-import AuthPage from './pages/LoginForm'
-import RegisterPage from './pages/RegisterForm'
-import UrlManagement from './presentation/components/Url/UrlManagement'
-import Home from './pages/Home'
-import SearchPage from './pages/SearchPage'
-import ProfilePage from './pages/ProfilePage'
+import AuthPage from './presentation/auth/LoginForm'
+import UrlManagement from './presentation/url/UrlManagement'
+import Home from './presentation/home/Home'
+import SearchPage from './presentation/searchPage/SearchPage'
+import ProfilePage from './presentation/profile/ProfilePage'
 
 function App() {
   return (

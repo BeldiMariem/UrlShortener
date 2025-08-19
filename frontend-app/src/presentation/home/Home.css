@@ -1,0 +1,324 @@
+.yellow-gradient-bg {
+  min-height: 100vh;
+  background: linear-gradient(135deg, rgb(245, 245, 245) 0%, rgb(245, 245, 245) 100%);
+  padding: 20px 0;
+}
+
+.yellow-title {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+.title-icon {
+  color: #333;
+}
+
+.yellow-subtitle {
+  color: #5a4a00;
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+}
+
+.yellow-url-card {
+  border-radius: 20px;
+  border: none;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border: 2px solid #ffc107;
+  width: 100%; /* Make it take full width of its container */
+  max-width: 900px; /* Set maximum width */
+  margin: 0 auto; /* Center the card */
+}
+
+/* Alternative: If you want even wider on large screens */
+.yellow-url-card.wide-card {
+  max-width: 1000px;
+}
+
+.yellow-card-title {
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+.yellow-card-subtitle {
+  color: #5a4a00;
+  margin-bottom: 1.5rem;
+}
+
+/* Remove these container media queries as they affect the overall layout */
+/*
+@media (min-width: 1200px) {
+  .container {
+    max-width: 1140px;
+  }
+}
+
+@media (min-width: 1400px) {
+  .container {
+    max-width: 1320px;
+  }
+}
+*/
+
+.yellow-icon-wrapper {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(135deg, #ffd700 0%, #ffc107 100%);
+  border-radius: 50%;
+  margin-bottom: 1rem;
+  box-shadow: 0 4px 10px rgba(255, 193, 7, 0.4);
+}
+
+.rocket-icon {
+  font-size: 2.5rem;
+  color: #333;
+}
+
+.yellow-form-label {
+  font-weight: 600;
+  color: #5a4a00;
+  margin-bottom: 0.5rem;
+}
+
+.yellow-form-control {
+  border-radius: 10px;
+  padding: 12px 16px;
+  border: 2px solid #ffc107;
+  transition: all 0.3s;
+}
+
+.yellow-form-control:focus {
+  border-color: #ffd700;
+  box-shadow: 0 0 0 0.2rem rgba(255, 193, 7, 0.25);
+}
+
+.yellow-submit-btn {
+  background: linear-gradient(135deg, #ffd700 0%, #ffc107 100%);
+  color: #333;
+  border: none;
+  border-radius: 10px;
+  padding: 12px;
+  font-weight: 600;
+  transition: all 0.3s;
+}
+
+.yellow-submit-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(255, 193, 7, 0.4);
+  color: #333;
+}
+
+.yellow-submit-btn:disabled {
+  opacity: 0.8;
+}
+
+.spinner-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.yellow-spinner {
+  width: 20px;
+  height: 20px;
+  border: 3px solid rgba(51, 51, 51, 0.3);
+  border-radius: 50%;
+  border-top-color: #333;
+  animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.result-container {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.yellow-success-alert {
+  border-radius: 12px;
+  border: none;
+  background-color: #fff8e1;
+  border: 1px solid #ffc107;
+}
+
+.yellow-alert-title {
+  color: #5a4a00;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.yellow-short-url {
+  color: #5a4a00;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+
+.yellow-short-url:hover {
+  color: #333;
+  text-decoration: underline;
+}
+
+.yellow-copy-btn {
+  border-radius: 8px;
+  padding: 5px 12px;
+  font-weight: 500;
+  color: #5a4a00;
+  border-color: #ffc107;
+}
+
+.yellow-copy-btn:hover {
+  background-color: #ffc107;
+  border-color: #ffc107;
+  color: #333;
+}
+
+.yellow-stats-box {
+  display: flex;
+  justify-content: space-around;
+  background: linear-gradient(135deg, #fff8e1 0%, #ffecb3 100%);
+  border-radius: 12px;
+  padding: 20px;
+  margin-top: 20px;
+  border: 1px solid #ffc107;
+}
+
+.stat-item {
+  text-align: center;
+}
+
+.yellow-stat-number {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #5a4a00;
+}
+
+.yellow-stat-label {
+  font-size: 0.85rem;
+  color: #5a4a00;
+}
+
+.yellow-stat-divider {
+  width: 1px;
+  background-color: #ffc107;
+}
+
+.yellow-error-alert {
+  border-radius: 12px;
+  animation: shake 0.5s ease-in-out;
+  border: 1px solid #ffc107;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
+.yellow-features-section {
+  color: #5a4a00;
+}
+
+.yellow-features-title {
+  font-weight: 700;
+  color: #333;
+  text-shadow: 0 2px 4px rgba(255, 215, 0, 0.3);
+}
+
+.yellow-feature-item {
+  text-align: center;
+  padding: 20px;
+}
+
+.yellow-feature-icon {
+  width: 70px;
+  height: 70px;
+  margin: 0 auto 20px;
+  border-radius: 20px;
+  background-color: rgba(255, 193, 7, 0.3);
+  position: relative;
+  box-shadow: 0 4px 10px rgba(255, 193, 7, 0.3);
+}
+
+.yellow-feature-icon::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 40px;
+  height: 40px;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.speed-icon::after {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%235a4a00'%3E%3Cpath d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l4.25 2.52.75-1.23-3.5-2.08V7z'/%3E%3C/svg%3E");
+}
+
+.security-icon::after {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%235a4a00'%3E%3Cpath d='M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z'/%3E%3C/svg%3E");
+}
+
+.analytics-icon::after {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%235a4a00'%3E%3Cpath d='M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-5h2v5zm4 0h-2v-3h2v3zm0-5h-2v-2h2v2zm4 5h-2V7h2v10z'/%3E%3C/svg%3E");
+}
+
+.yellow-feature-heading {
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+.yellow-feature-text {
+  color: #5a4a00;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .yellow-title {
+    font-size: 2.2rem;
+  }
+  
+  .yellow-stats-box {
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .yellow-stat-divider {
+    width: 100%;
+    height: 1px;
+  }
+  
+  /* Ensure card doesn't get too wide on mobile */
+  .yellow-url-card {
+    margin: 0 15px;
+    width: calc(100% - 30px);
+  }
+}
+
+/* For larger screens, you can make it even wider */
+@media (min-width: 1200px) {
+  .yellow-url-card {
+    max-width: 1000px;
+  }
+}
+
+@media (min-width: 1400px) {
+  .yellow-url-card {
+    max-width: 1100px;
+  }
+}
