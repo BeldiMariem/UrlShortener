@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Modal, Form, Button } from "react-bootstrap";
-import { IUserPayload, IUserUpdatePayload } from "../../../domain/models/User";
+import { IUserPayload, IUserUpdatePayload } from "../../domain/models/User";
 
 interface CommonProps {
   show: boolean;

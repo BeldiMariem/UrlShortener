@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import Sidebar from "../presentation/components/layout/SideBar";
+import Sidebar from "./layout/SideBar";
 
 interface LayoutProps {
   children: React.ReactNode;

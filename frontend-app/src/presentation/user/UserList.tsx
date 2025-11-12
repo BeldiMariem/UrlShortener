@@ -9,13 +9,13 @@ import {
   Form,
   Pagination,
 } from "react-bootstrap";
-import { IUser } from "../../../domain/models/User";
+import { IUser } from "../../domain/models/User";
 import {
   getAllUsers,
   removeUser,
   editUser,
-} from "../../../application/usecases/user/userUsecases";
-import { createUser } from "../../../infrastructure/services/user/userService";
+} from "../../application/usecases/user/userUsecases";
+import { createUser } from "../../infrastructure/services/user/userService";
 import UserForm from "./UserForm";
 
 const UserList: React.FC = () => {
